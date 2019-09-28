@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  passwrod: 
+  email: 
+  bookmarks: 
+
+two:
+  name: MyString
+  passwrod: 
+  email: 
+  bookmarks: 
