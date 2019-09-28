@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: 
+  location: 
+  bookBorrowingDaysLimit: 
+  overdueFine: 
+
+two:
+  name: 
+  location: 
+  bookBorrowingDaysLimit: 
+  overdueFine: 
