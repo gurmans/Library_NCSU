@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: 
-  maxNumberOfBooksIssuable: 
+  name: MyString
+  maxNumberOfBooksIssuable: 1
 
 two:
-  name: 
-  maxNumberOfBooksIssuable: 
+  name: MyString
+  maxNumberOfBooksIssuable: 1

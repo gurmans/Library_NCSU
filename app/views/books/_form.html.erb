@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= form.label :ISBN %>
-    <%= form.text_field :ISBN %>
+    <%= form.number_field :ISBN %>
   </div>
 
   <div class="field">
@@ -53,12 +53,12 @@
 
   <div class="field">
     <%= form.label :specialCollection %>
-    <%= form.text_field :specialCollection %>
+    <%= form.check_box :specialCollection %>
   </div>
 
   <div class="field">
     <%= form.label :returnDate %>
-    <%= form.text_field :returnDate %>
+    <%= form.date_select :returnDate %>
   </div>
 
   <div class="actions">
