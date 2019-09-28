@@ -2,12 +2,12 @@
 
 one:
   name: MyString
-  passwrod: 
-  email: 
-  bookmarks: 
+  passwrod: MyString
+  email: MyString
+  bookmarks: MyString
 
 two:
   name: MyString
-  passwrod: 
-  email: 
-  bookmarks: 
+  passwrod: MyString
+  email: MyString
+  bookmarks: MyString

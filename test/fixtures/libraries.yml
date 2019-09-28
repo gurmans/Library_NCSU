@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: 
-  location: 
-  bookBorrowingDaysLimit: 
-  overdueFine: 
+  name: MyString
+  location: MyString
+  bookBorrowingDaysLimit: 1
+  overdueFine: 9.99
 
 two:
-  name: 
-  location: 
-  bookBorrowingDaysLimit: 
-  overdueFine: 
+  name: MyString
+  location: MyString
+  bookBorrowingDaysLimit: 1
+  overdueFine: 9.99

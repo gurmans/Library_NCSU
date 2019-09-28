@@ -21,7 +21,7 @@ class BooksTest < ApplicationSystemTestCase
     fill_in "Language", with: @book.language
     fill_in "Published", with: @book.published
     fill_in "Returndate", with: @book.returnDate
-    fill_in "Specialcollection", with: @book.specialCollection
+    check "Specialcollection" if @book.specialCollection
     fill_in "Summary", with: @book.summary
     fill_in "Title", with: @book.title
     click_on "Create Book"
@@ -41,7 +41,7 @@ class BooksTest < ApplicationSystemTestCase
     fill_in "Language", with: @book.language
     fill_in "Published", with: @book.published
     fill_in "Returndate", with: @book.returnDate
-    fill_in "Specialcollection", with: @book.specialCollection
+    check "Specialcollection" if @book.specialCollection
     fill_in "Summary", with: @book.summary
     fill_in "Title", with: @book.title
     click_on "Update Book"
