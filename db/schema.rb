@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_29_065646) do
+ActiveRecord::Schema.define(version: 2019_09_29_150917) do
 
   create_table "accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -22,6 +22,10 @@ ActiveRecord::Schema.define(version: 2019_09_29_065646) do
     t.date "returnDate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "book_id"
+    t.integer "account_id"
+    t.index ["account_id"], name: "index_book_histories_on_account_id"
+    t.index ["book_id"], name: "index_book_histories_on_book_id"
   end
 
   create_table "books", force: :cascade do |t|
@@ -37,6 +41,10 @@ ActiveRecord::Schema.define(version: 2019_09_29_065646) do
     t.date "returnDate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "account_id"
+    t.integer "library_id"
+    t.index ["account_id"], name: "index_books_on_account_id"
+    t.index ["library_id"], name: "index_books_on_library_id"
   end
 
   create_table "librarians", force: :cascade do |t|
@@ -46,6 +54,10 @@ ActiveRecord::Schema.define(version: 2019_09_29_065646) do
     t.string "bookmarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "account_id"
+    t.integer "library_id"
+    t.index ["account_id"], name: "index_librarians_on_account_id"
+    t.index ["library_id"], name: "index_librarians_on_library_id"
   end
 
   create_table "libraries", force: :cascade do |t|
@@ -80,6 +92,12 @@ ActiveRecord::Schema.define(version: 2019_09_29_065646) do
     t.string "bookmarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "account_id"
+    t.integer "program_id"
+    t.integer "university_id"
+    t.index ["account_id"], name: "index_students_on_account_id"
+    t.index ["program_id"], name: "index_students_on_program_id"
+    t.index ["university_id"], name: "index_students_on_university_id"
   end
 
   create_table "universities", force: :cascade do |t|

@@ -26,8 +26,8 @@
     <%= form.text_field :Author %>
   </div>
 
-  <%#= form.label :library_id %>
-  <%#= select("book", "library_id", Library.all.collect { |l| [l.name, l.id] }) %>
+  <%= form.label :library_id %>
+  <%= select("book", "library_id", Library.all.collect { |l| [l.name, l.id] }) %>
 
   <div class="field">
     <%= form.label :language %>
@@ -57,11 +57,6 @@
   <div class="field">
     <%= form.label :specialCollection %>
     <%= form.check_box :specialCollection %>
-  </div>
-
-  <div class="field">
-    <%= form.label :returnDate %>
-    <%= form.date_select :returnDate %>
   </div>
 
   <div class="actions">
