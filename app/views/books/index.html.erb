@@ -8,6 +8,8 @@
       <th>Isbn</th>
       <th>Title</th>
       <th>Author</th>
+      <th>Library</th>
+      <th>Issued to Account</th>
       <th>Language</th>
       <th>Published</th>
       <th>Edition</th>
@@ -25,7 +27,8 @@
         <td><%= book.ISBN %></td>
         <td><%= book.title %></td>
         <td><%= book.Author %></td>
-<!--        <td><%#= book.library %></td>-->
+        <td><%= book.library.name %></td>
+        <td><% if book.account.present? %> book.account.id<%else%><%end%></td>
         <td><%= book.language %></td>
         <td><%= book.published %></td>
         <td><%= book.edition %></td>

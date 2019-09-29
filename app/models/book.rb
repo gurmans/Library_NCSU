@@ -1,4 +1,4 @@
 class Book < ApplicationRecord
-  has_one :account
+  belongs_to :account, optional: true
   belongs_to :library
 end
