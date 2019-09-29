@@ -1,0 +1,26 @@
+rails g scaffold Library name:string location:string bookBorrowingDaysLimit:integer overdueFine:decimal
+
+rails g scaffold Book ISBN:integer title:string Author:string language:string published:string edition:string image:string summary:text specialCollection:boolean returnDate:date
+
+rails g scaffold BookHistory issueDate:date returnDate:date
+
+rails g scaffold University name:string
+
+rails g scaffold librarian name:string passwrod:string email:string bookmarks:string
+
+rails g scaffold student name:string passwrod:string email:string bookmarks:string
+
+//rails g model ProgramMapAllowedBooks maxNumberOfBooksIssuable:int
+
+rails g model UserRoles role:string
+
+rails g model session token:string expirationTime:timestamp
+
+rails g model account
+
+rails g scaffold program name:string maxNumberOfBooksIssuable:integer
+
+rails g migration AddUniversityRefToLibraries university:references
+
+rails g migration AddReferences
+
