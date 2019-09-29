@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_28_223719) do
+ActiveRecord::Schema.define(version: 2019_09_29_065646) do
 
   create_table "accounts", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(version: 2019_09_28_223719) do
     t.decimal "overdueFine"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "university_id"
+    t.index ["university_id"], name: "index_libraries_on_university_id"
   end
 
   create_table "programs", force: :cascade do |t|

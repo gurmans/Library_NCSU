@@ -12,6 +12,7 @@ class CreateBooks < ActiveRecord::Migration[5.2]
       t.boolean :specialCollection
       t.date :returnDate
 
+      t.references :library
       t.timestamps
     end
   end
