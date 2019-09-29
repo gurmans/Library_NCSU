@@ -1,4 +1,4 @@
 class BookHistory < ApplicationRecord
-  has_many :books
-  has_many :accounts
+  belongs_to :books
+  belongs_to :accounts
 end
