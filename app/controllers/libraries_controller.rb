@@ -69,6 +69,6 @@ class LibrariesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def library_params
-      params.require(:library).permit(:name, :location, :bookBorrowingDaysLimit, :overdueFine)
+      params.require(:library).permit(:name, :location, :bookBorrowingDaysLimit, :overdueFine, :university_id)
     end
 end
