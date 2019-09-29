@@ -31,6 +31,9 @@
     <%= form.text_field :bookmarks %>
   </div>
 
+  <%= form.label :library_id %>
+  <%= select("librarian", "library_id", Library.all.collect { |l| [l.name, l.id] }) %>
+
   <div class="actions">
     <%= form.submit %>
   </div>

@@ -10,12 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_29_150917) do
-
-  create_table "accounts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 2019_09_29_190012) do
 
   create_table "book_histories", force: :cascade do |t|
     t.date "issueDate"
@@ -23,9 +18,9 @@ ActiveRecord::Schema.define(version: 2019_09_29_150917) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "book_id"
-    t.integer "account_id"
-    t.index ["account_id"], name: "index_book_histories_on_account_id"
+    t.integer "student_id"
     t.index ["book_id"], name: "index_book_histories_on_book_id"
+    t.index ["student_id"], name: "index_book_histories_on_student_id"
   end
 
   create_table "books", force: :cascade do |t|
@@ -41,22 +36,20 @@ ActiveRecord::Schema.define(version: 2019_09_29_150917) do
     t.date "returnDate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "account_id"
+    t.integer "student_id"
     t.integer "library_id"
-    t.index ["account_id"], name: "index_books_on_account_id"
     t.index ["library_id"], name: "index_books_on_library_id"
+    t.index ["student_id"], name: "index_books_on_student_id"
   end
 
   create_table "librarians", force: :cascade do |t|
     t.string "name"
-    t.string "passwrod"
+    t.string "password"
     t.string "email"
     t.string "bookmarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "account_id"
     t.integer "library_id"
-    t.index ["account_id"], name: "index_librarians_on_account_id"
     t.index ["library_id"], name: "index_librarians_on_library_id"
   end
 
@@ -87,15 +80,13 @@ ActiveRecord::Schema.define(version: 2019_09_29_150917) do
 
   create_table "students", force: :cascade do |t|
     t.string "name"
-    t.string "passwrod"
+    t.string "password"
     t.string "email"
     t.string "bookmarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "account_id"
     t.integer "program_id"
     t.integer "university_id"
-    t.index ["account_id"], name: "index_students_on_account_id"
     t.index ["program_id"], name: "index_students_on_program_id"
     t.index ["university_id"], name: "index_students_on_university_id"
   end

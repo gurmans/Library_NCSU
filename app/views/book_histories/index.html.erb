@@ -17,7 +17,7 @@
     <% @book_histories.each do |book_history| %>
       <tr>
         <td><% if book_history.book.present? %> book_history.book.ISBN<%else%><%end%></td>
-        <td><% if book_history.account.present? %> book.account.id<%else%><%end%></td>
+        <td><% if book_history.student.present? %> book.student.id<%else%><%end%></td>
         <td><%= book_history.issueDate %></td>
         <td><%= book_history.returnDate %></td>
         <td><%= link_to 'Show', book_history %></td>

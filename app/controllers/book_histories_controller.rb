@@ -69,6 +69,6 @@ class BookHistoriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_history_params
-      params.require(:book_history).permit(:issueDate, :returnDate, :book_id, :account_id)
+      params.require(:book_history).permit(:issueDate, :returnDate, :book_id, :student_id)
     end
 end
