@@ -26,6 +26,9 @@
     <%= form.text_field :Author %>
   </div>
 
+  <%#= form.label :library_id %>
+  <%#= select("book", "library_id", Library.all.collect { |l| [l.name, l.id] }) %>
+
   <div class="field">
     <%= form.label :language %>
     <%= form.text_field :language %>
