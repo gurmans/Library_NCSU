@@ -17,8 +17,8 @@
   </div>
 
   <div class="field">
-    <%= form.label :passwrod %>
-    <%= form.text_field :passwrod %>
+    <%= form.label :password %>
+    <%= form.text_field :password %>
   </div>
 
   <div class="field">
@@ -26,10 +26,13 @@
     <%= form.text_field :email %>
   </div>
 
-  <div class="field">
-    <%= form.label :bookmarks %>
-    <%= form.text_field :bookmarks %>
-  </div>
+  <%= form.label :university_id %>
+  <%= select("student", "university_id", University.all.collect{ |c| [ c.name, c.id] }) %>	
+ 
+  <%= form.label :program_id %>
+  <%= select("student", "program_id", Program.all.collect{ |c| [ c.name, c.id] }) %>	
+ 
+
 
   <div class="actions">
     <%= form.submit %>
