@@ -8,6 +8,7 @@
       <th>Name</th>
       <th>Password</th>
       <th>Email</th>
+      <th>Library</th>
       <th>Bookmarks</th>
       <th colspan="3"></th>
     </tr>
@@ -19,6 +20,7 @@
         <td><%= librarian.name %></td>
         <td><%= librarian.password %></td>
         <td><%= librarian.email %></td>
+        <td><%= librarian.library.name %></td>
         <td><%= librarian.bookmarks %></td>
         <td><%= link_to 'Show', librarian %></td>
         <td><%= link_to 'Edit', edit_librarian_path(librarian) %></td>
