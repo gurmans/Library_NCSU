@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_29_231511) do
+ActiveRecord::Schema.define(version: 2019_09_30_195354) do
 
   create_table "book_histories", force: :cascade do |t|
     t.date "issueDate"
@@ -50,7 +50,13 @@ ActiveRecord::Schema.define(version: 2019_09_29_231511) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "library_id"
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.index ["email"], name: "index_librarians_on_email", unique: true
     t.index ["library_id"], name: "index_librarians_on_library_id"
+    t.index ["reset_password_token"], name: "index_librarians_on_reset_password_token", unique: true
   end
 
   create_table "libraries", force: :cascade do |t|

@@ -3,5 +3,8 @@ class ApplicationController < ActionController::Base
                 if resource_class == Student
                         student_path(current_student)
                 end
+		if resource_class == Librarian
+                        librarian_path(current_librarian)
+                end
     end	
 end
