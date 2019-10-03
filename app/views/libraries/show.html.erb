@@ -20,5 +20,13 @@
   <%= @library.overdueFine %>
 </p>
 
-<%= link_to 'Edit', edit_library_path(@library) %> |
+<%- if admin_signed_in? or librarian_signed_in? %>
+            <%- if librarian_signed_in? %>
+                <%- if current_librarian.library.id == @library.id %>
+                        <%= link_to 'Edit', edit_library_path(@library) %>
+                <% end  %>
+            <%- else %>
+		<%= link_to 'Edit', edit_library_path(@library) %>
+	    <% end %>
+<% end %>	 
 <%= link_to 'Back', libraries_path %>

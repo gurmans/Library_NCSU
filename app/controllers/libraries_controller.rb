@@ -1,4 +1,5 @@
 class LibrariesController < ApplicationController
+  before_action :authenticate!, except: [:index,:show]
   before_action :set_library, only: [:show, :edit, :update, :destroy]
 
   # GET /libraries
@@ -70,5 +71,10 @@ class LibrariesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def library_params
       params.require(:library).permit(:name, :location, :bookBorrowingDaysLimit, :overdueFine, :university_id)
+    end
+   
+    # explicit authentication method
+    def authenticate!
+        :authenticate_admin! || :authenticate_librarian!
     end
 end
