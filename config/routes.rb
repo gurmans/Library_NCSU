@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  get 'pages/home'
+  get 'pages/adminhome'
+  get 'pages/studenthome'
+  get 'pages/librarianhome'
+  devise_for :admins, controllers: { sessions: 'admins/sessions', registrations: 'admins/registrations'  }
   devise_for :librarians, controllers: { sessions: 'librarians/sessions', registrations: 'librarians/registrations' }
   devise_for :students, controllers: { sessions: 'students/sessions', registrations: 'students/registrations' }
   resources :programs
@@ -12,5 +17,6 @@ Rails.application.routes.draw do
   	resources :librarians
   end	
   resources :universities
+  root to: 'pages#home'	
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
