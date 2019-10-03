@@ -1,4 +1,5 @@
 class BooksController < ApplicationController
+  before_action :authenticate!, except: [:index,:show]
   before_action :set_book, only: [:show, :edit, :update, :destroy]
 
   # GET /books
@@ -71,4 +72,9 @@ class BooksController < ApplicationController
     def book_params
       params.require(:book).permit(:ISBN, :title, :Author, :language, :published, :edition, :image, :summary, :specialCollection, :returnDate, :student_id, :library_id)
     end
+
+    # explicit authentication method
+    def authenticate!
+	:authenticate_admin! || :authenticate_librarian!	
+    end		
 end
