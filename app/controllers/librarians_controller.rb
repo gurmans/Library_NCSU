@@ -1,4 +1,5 @@
 class LibrariansController < ApplicationController
+  before_action :authenticate_admin!, only: [:show, :edit, :update, :destroy]  
   before_action :set_librarian, only: [:show, :edit, :update, :destroy]
 
   # GET /librarians
