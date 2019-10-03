@@ -5,3 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+    p = Admin.new(:name => 'jpg', :email => 'jpg@gmail.com', :password => 'jpg123', :password_confirmation => 'jpg123');
+    p.save!
