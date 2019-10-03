@@ -27,7 +27,11 @@
   </div>
 
   <%= form.label :library_id %>
-  <%= select("book", "library_id", Library.all.collect { |l| [l.name, l.id] }) %>
+  <%- if librarian_signed_in? %>	
+  	<%= select("book", "library_id", [[current_librarian.library.name, current_librarian.library.id]] )%>
+  <% else %>
+	<%= select("book", "library_id", Library.all.collect { |l| [l.name, l.id] }) %>
+  <% end %>
 
   <div class="field">
     <%= form.label :language %>
