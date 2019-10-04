@@ -27,7 +27,7 @@
         <td><%= book.ISBN %></td>
         <td><%= book.title %></td>
         <td><%= book.Author %></td>
-        <td><%= book.library.name %></td>
+        <td><% if book.library.present? %> book.library.name<%else%><%end%></td>
         <td><% if book.student.present? %> book.student.id<%else%><%end%></td>
         <td><%= book.language %></td>
         <td><%= book.published %></td>
@@ -37,13 +37,22 @@
         <td><%= book.specialCollection %></td>
         <td><%= book.returnDate %></td>
         <td><%= link_to 'Show', book %></td>
-        <td><%= link_to 'Edit', edit_book_path(book) %></td>
-        <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	<%- if admin_signed_in? or librarian_signed_in? %>
+		<%- if librarian_signed_in? %>
+			<%- if current_librarian.library.id == book.library.id %>
+                        	<td><%= link_to 'Edit', edit_book_path(book) %></td>
+                	<% end  %> 
+		<%- else %>	   	
+        		<td><%= link_to 'Edit', edit_book_path(book) %></td>
+        		<td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		<% end %>
+	<% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New Book', new_book_path %>
+<%- if admin_signed_in? or librarian_signed_in? %>
+	<%= link_to 'New Book', new_book_path %>
+<% end %>

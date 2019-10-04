@@ -1,4 +1,3 @@
-<p id="notice"><%= notice %></p>
 
 <h1>Students</h1>
 
@@ -17,7 +16,7 @@
     <% @students.each do |student| %>
       <tr>
         <td><%= student.name %></td>
-        <td><%= student.passwrod %></td>
+        <td><%= student.password %></td>
         <td><%= student.email %></td>
         <td><%= student.bookmarks %></td>
         <td><%= link_to 'Show', student %></td>

@@ -10,6 +10,25 @@
   </head>
 
   <body>
+    <div style="float:right;">
+    <% if admin_signed_in? %>
+  	<%= link_to "Admin Home", pages_adminhome_path %>
+  	<%= link_to "Sign out", destroy_admin_session_path, :method => :delete %>
+    <% elsif student_signed_in? %>
+	<%= link_to "Student Home", pages_studenthome_path %>
+  	<%= link_to "Sign out", destroy_student_session_path, :method => :delete %>
+    <% elsif librarian_signed_in? %>
+	<%= link_to "Librarian Home", pages_librarianhome_path %>
+  	<%= link_to "Sign out", destroy_librarian_session_path, :method => :delete %> 
+    <% end %>
+    </div>		
+	
+    <% if notice %>
+        <p class="alert alert-success"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+        <p class="alert alert-danger"><%= alert %></p>
+    <% end %>	
     <%= yield %>
   </body>
 </html>

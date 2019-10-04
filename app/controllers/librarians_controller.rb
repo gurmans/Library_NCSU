@@ -1,4 +1,5 @@
 class LibrariansController < ApplicationController
+  before_action :authenticate_admin!, only: [:show, :edit, :update, :destroy]
   before_action :set_librarian, only: [:show, :edit, :update, :destroy]
 
   # GET /librarians
@@ -69,6 +70,6 @@ class LibrariansController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def librarian_params
-      params.require(:librarian).permit(:name, :password, :email, :bookmarks, :library_id)
+      params.require(:librarian).permit(:name, :password, :email, :bookmarks, :library_id, :password_confirmation)
     end
 end

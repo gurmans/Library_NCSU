@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LibraryManagementSystem</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  <body>
+	<center><h1>Welcome To Library Management System</h1></center>
+	<br />
+	<br />
+	<h2> Admin: </h2><br />
+	<%= link_to "Admin Log in", new_admin_session_path %><br />
+
+	<br />
+	<br />
+
+	<h2> Librarian: </h2><br />
+	<ul>
+	<li> <%= link_to "Librarian Log in", new_librarian_session_path %> </li>
+	<li> <%= link_to "Librarian Sign up", new_librarian_registration_path %> </li>
+	</ul>
+
+	<br />
+	<br />
+
+	<h2> Student: </h2><br />
+	<ul>
+	<li> <%= link_to "Student Log in", new_student_session_path %> </li>
+	<li> <%= link_to "Student Sign up", new_student_registration_path %> </li>
+	</ul>
+
+  </body>
+</html>                     
