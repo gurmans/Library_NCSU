@@ -1,0 +1,24 @@
+Commands to deploy app on heroku
+
+1.Login to heroku from CLI
+	heroku login
+	 credentials : jsukhad@ncsu.edu
+	 password: Rubyproject2!
+
+2. Youll dont need to create a new project 
+	Just check git remote -v 
+	if it has something with heroku then you are fine
+
+3. then just add and commit 
+	git add .
+	git commit -m "something"
+
+4. then just push your files to heroku git
+	git push heroku master
+
+
+5. to run migration
+	heroku run rails db:migrate
+
+6. to open the website
+	heroku open.
