@@ -27,8 +27,8 @@
         <td><%= book.ISBN %></td>
         <td><%= book.title %></td>
         <td><%= book.Author %></td>
-        <td><% if book.library.present? %> book.library.name<%else%><%end%></td>
-        <td><% if book.student.present? %> book.student.id<%else%><%end%></td>
+        <td><% if book.library.present? %> <%= book.library.name%><%else%><%end%></td>
+        <td><% if book.student.present? %><%= book.student.id%><%else%><%end%></td>
         <td><%= book.language %></td>
         <td><%= book.published %></td>
         <td><%= book.edition %></td>

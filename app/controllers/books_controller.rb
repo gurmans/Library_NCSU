@@ -62,6 +62,25 @@ class BooksController < ApplicationController
     end
   end
 
+  def placeHoldRequest
+    # HoldBookTracker.find_by_
+    @book = Book.find(params[:id])
+    @student = current_student
+    respond_to do |format|
+      if @book.hold_book_trackers.present? && @book.hold_book_trackers.find_by_student_id(@student.id).present?
+        format.html { redirect_to @book, notice: 'Hold is already Requested.' }
+        format.json { render :show, status: :ok, location: @book }
+      else @holdBookRecord = HoldBookTracker.new(book: @book, student: @student)
+        if @holdBookRecord.save
+          format.html { redirect_to @book, notice: 'Your Request is successfully Handled.' }
+          format.json { render :show, status: :ok, location: @book }
+        else
+          format.html { redirect_to @book, notice: 'Your Could NOT be handled, please contact support staff.' }
+          format.json { render json: @book.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_book

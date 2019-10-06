@@ -5,4 +5,5 @@ class Student < ApplicationRecord
          :recoverable, :rememberable, :validatable
   belongs_to :program
   belongs_to :university
+  has_many :hold_book_trackers, :dependent => :destroy
 end

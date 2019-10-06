@@ -50,14 +50,27 @@
   <%= @book.returnDate %>
 </p>
 
+<%#- if current_student.present? && current_student.university_id == @book.Library.university_id %>
+  <p>
+    <strong>Hold Count:</strong>
+    <%= @book.hold_book_trackers.count %>
+  </p>
+<%# end  %>
+
+<%- if student_signed_in?%>
+  <%- if current_student.university_id == @book.library.university_id %>
+    <%= link_to 'Request Hold', { :controller => :books, :action => :placeHoldRequest, :id => @book.id}, :method => :put %>
+  <% end %>
+<% end %>
+
 <%- if admin_signed_in? or librarian_signed_in? %>
-                <%- if librarian_signed_in? %>
-                        <%- if current_librarian.library.id == @book.library.id %>
-                                <%= link_to 'Edit', edit_book_path(@book) %>
-                        <% end  %>
-                <%- else %>
+        <%- if librarian_signed_in? %>
+                <%- if current_librarian.library.id == @book.library.id %>
                         <%= link_to 'Edit', edit_book_path(@book) %>
-                <% end %>
+                <% end  %>
+        <%- else %>
+                <%= link_to 'Edit', edit_book_path(@book) %>
         <% end %>
+<% end %>
 
 <%= link_to 'Back', books_path %>
