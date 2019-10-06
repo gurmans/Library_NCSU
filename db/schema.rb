@@ -10,10 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_06_075205) do
+ActiveRecord::Schema.define(version: 2019_10_06_223908) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.integer "record_id", null: false
+    t.integer "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -33,8 +51,8 @@ ActiveRecord::Schema.define(version: 2019_10_06_075205) do
     t.date "returnDate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "book_id"
-    t.bigint "student_id"
+    t.integer "book_id"
+    t.integer "student_id"
     t.index ["book_id"], name: "index_book_histories_on_book_id"
     t.index ["student_id"], name: "index_book_histories_on_student_id"
   end
@@ -52,8 +70,8 @@ ActiveRecord::Schema.define(version: 2019_10_06_075205) do
     t.date "returnDate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "student_id"
-    t.bigint "library_id"
+    t.integer "student_id"
+    t.integer "library_id"
     t.index ["library_id"], name: "index_books_on_library_id"
     t.index ["student_id"], name: "index_books_on_student_id"
   end
@@ -74,7 +92,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_075205) do
     t.string "bookmarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "library_id"
+    t.integer "library_id"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -91,7 +109,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_075205) do
     t.decimal "overdueFine"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "university_id"
+    t.integer "university_id"
     t.index ["university_id"], name: "index_libraries_on_university_id"
   end
 
@@ -116,8 +134,8 @@ ActiveRecord::Schema.define(version: 2019_10_06_075205) do
     t.string "bookmarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "program_id"
-    t.bigint "university_id"
+    t.integer "program_id"
+    t.integer "university_id"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -140,12 +158,4 @@ ActiveRecord::Schema.define(version: 2019_10_06_075205) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "book_histories", "books"
-  add_foreign_key "book_histories", "students"
-  add_foreign_key "books", "libraries"
-  add_foreign_key "books", "students"
-  add_foreign_key "librarians", "libraries"
-  add_foreign_key "libraries", "universities"
-  add_foreign_key "students", "programs"
-  add_foreign_key "students", "universities"
 end
