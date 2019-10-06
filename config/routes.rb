@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   resources :book_histories
   resources :books do
     collection do
-      put 'placeHoldRequest'
+      post 'placeHoldRequest'
+      post 'placeCheckoutRequest'
     end
   end
   resources :libraries

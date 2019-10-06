@@ -62,7 +62,7 @@ class BooksController < ApplicationController
     end
   end
 
-  def placeHoldRequest
+  def placeCheckoutRequest
     # HoldBookTracker.find_by_
     @book = Book.find(params[:id])
     @student = current_student
@@ -81,8 +81,32 @@ class BooksController < ApplicationController
       end
     end
   end
+
+  def placeHoldRequest
+    # HoldBookTracker.find_by_
+    @book = Book.find(params[:id])
+    @student = current_student
+    respond_to do |format|
+      if @book.hold_book_trackers.present? && @book.hold_book_trackers.find_by_student_id(@student.id).present?
+        redirectWithMessage(format, 'Hold is already Requested.')
+      else @holdBookRecord = HoldBookTracker.new(book: @book, student: @student)
+        if @holdBookRecord.save
+          redirectWithMessage(format, 'Your Request is successfully Handled.')
+        else
+          redirectWithMessage(format, 'Your Request could NOT be handled, please contact support staff.')
+      end
+      end
+    end
+  end
+
   private
-    # Use callbacks to share common setup or constraints between actions.
+
+  def redirectWithMessage(format, message)
+    format.html { redirect_to @book, notice: message }
+    format.json { render :show, status: :ok, location: @book }
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
     def set_book
       @book = Book.find(params[:id])
     end
