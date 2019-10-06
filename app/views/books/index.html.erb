@@ -13,7 +13,7 @@
       <th>Language</th>
       <th>Published</th>
       <th>Edition</th>
-      <th>Image</th>
+      <th>Cover</th>
       <th>Summary</th>
       <th>Specialcollection</th>
       <th>Returndate</th>
@@ -27,12 +27,12 @@
         <td><%= book.ISBN %></td>
         <td><%= book.title %></td>
         <td><%= book.Author %></td>
-        <td><% if book.library.present? %> <%= book.library.name%><%else%><%end%></td>
-        <td><% if book.student.present? %><%= book.student.id%><%else%><%end%></td>
+        <td><% if book.library.present? %> <%= book.library.name%><%end%></td>
+        <td><% if book.student.present? %><%= book.student.id%><%end%></td>
         <td><%= book.language %></td>
         <td><%= book.published %></td>
         <td><%= book.edition %></td>
-        <td><%= book.image %></td>
+        <td><% if book.cover.attached? %> <img src="<%=url_for(book.cover) %>" height="60" width="40"/><%end%></td>
         <td><%= book.summary %></td>
         <td><%= book.specialCollection %></td>
         <td><%= book.returnDate %></td>
