@@ -4,7 +4,15 @@ class BookHistoriesController < ApplicationController
   # GET /book_histories
   # GET /book_histories.json
   def index
-    @book_histories = BookHistory.all
+    if admin_signed_in?	
+    	@book_histories = BookHistory.all
+    elsif student_signed_in?
+   	@book_histories = BookHistory.where(:student_id=>current_student.id,:returnDate=>nil)
+    elsif librarian_signed_in?
+	@book_histories = BookHistory.where(:bookid=>Books.select("book_id").where(:library_id=>current_librarian.library.id),:returnDate=>nil)	
+    else
+       	redirect_to root_path
+    end	 		
   end
 
   # GET /book_histories/1
