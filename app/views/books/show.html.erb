@@ -62,7 +62,7 @@
       		<%= link_to 'Add to Wish List', { :controller => :books, :action => :addToWishList, :id => @book.id}, :method => :post %>
     	  </p>
 
-        <%- if !BookHistory.checkIfAlreadyIssued?(@book.id,current_student.id) %> 
+        <%- if !BookHistory.checkIfAlreadyIssued?(@book.id,current_student.id) and !BookHistory.checkMaxLimit?(current_student.id) %> 
 	<%- if @book.available > 0 and !@book.specialCollection%>	
     		<p>
       			<%= link_to 'Checkout/Reserve', { :controller => :books, :action => :placeCheckoutRequest, :id => @book.id}, :method => :post %>
@@ -94,10 +94,11 @@
 <%= link_to 'Back', books_path %>
 
 <%- if admin_signed_in? or librarian_signed_in? %>
+	<h1>Book History :- </h1>
         <%- if librarian_signed_in? %>
                 <%- if current_librarian.library.id == @book.library.id %>
-                        <%= render: "book_histories/index/?bid=#{@book.id}" %>
+                       	<%= render "book_histories/display_book_history" %>
                 <% end  %>                                                                                                      <%- else %>
-                <%= render: "book_histories/index/?bid=#{@book.id}" %>
+                <%= render "book_histories/display_book_history" %>
         <% end %>
 <% end %>
