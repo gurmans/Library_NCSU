@@ -69,7 +69,15 @@
 <!--  Plus another condition that if available books count is 0.-->
 <%- if student_signed_in?%>
   <%- if current_student.university_id == @book.library.university_id %>
-    <%= link_to 'Request Hold', { :controller => :books, :action => :placeHoldRequest, :id => @book.id}, :method => :post %>
+    <%= link_to 'Request Hold', {:controller => :books, :action => :placeHoldRequest, :id => @book.id}, :method => :post %>
+  <% end %>
+<% end %>
+
+<%- if student_signed_in?%>
+  <%- if current_student.university_id == @book.library.university_id %>
+    <p>
+      <%= link_to 'Add to Wish List', { :controller => :books, :action => :addToWishList, :id => @book.id}, :method => :post %>
+    </p>
   <% end %>
 <% end %>
 
