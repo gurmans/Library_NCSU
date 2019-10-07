@@ -64,22 +64,40 @@ class BooksController < ApplicationController
 
   def placeCheckoutRequest
     # HoldBookTracker.find_by_
-    @book = Book.find(params[:id])
+    @book = Book.find(params[:id])	
     @student = current_student
-    respond_to do |format|
-      if @book.hold_book_trackers.present? && @book.hold_book_trackers.find_by_student_id(@student.id).present?
-        format.html { redirect_to @book, notice: 'Hold is already Requested.' }
-        format.json { render :show, status: :ok, location: @book }
-      else @holdBookRecord = HoldBookTracker.new(book: @book, student: @student)
-        if @holdBookRecord.save
-          format.html { redirect_to @book, notice: 'Your Request is successfully Handled.' }
-          format.json { render :show, status: :ok, location: @book }
-        else
-          format.html { redirect_to @book, notice: 'Your Could NOT be handled, please contact support staff.' }
-          format.json { render json: @book.errors, status: :unprocessable_entity }
-        end
-      end
-    end
+    if @student
+    	alreadyIssued = BookHistory.checkIfAlreadyIssued?(@book.id,@student.id)	
+    	respond_to do |format|
+      		if alreadyIssued
+        		format.html { redirect_to @book, notice: 'Book is already Issued.' }
+        		format.json { render :show, status: :ok, location: @book }
+      		elsif  Book.createNewCheckoutEntry?(@book.id,@student.id) and Book.updateAvailableCounter?(@book.id,-1)	
+          		format.html { redirect_to @book, notice: 'Checkout Successful.' }
+          		format.json { render :show, status: :ok, location: @book }
+        	else
+          		format.html { redirect_to @book, notice: 'Your Request Could NOT be handled, please contact support staff.' }
+          		format.json { render json: @book.errors, status: :unprocessable_entity }
+      		end
+    	end
+     end
+  end
+
+  def returnBook
+	@book = Book.find(params[:id])
+	@student = current_student
+        if @student
+
+		respond_to do |format|
+			if Book.updateExistingCheckoutEntry?(@book.id,@student.id) and Book.updateAvailableCounter?(@book.id,1)
+				format.html { redirect_to @book, notice: 'Checkout Successful.' }
+				format.json { render :show, status: :ok, location: @book }
+			else
+				format.html { redirect_to @book, notice: 'Your Request Could NOT be handled, please contact support staff.' }
+                        	format.json { render json: @book.errors, status: :unprocessable_entity }
+			end
+        	end	
+        end			 	
   end
 
   def placeHoldRequest
@@ -113,7 +131,7 @@ class BooksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
-      params.require(:book).permit(:ISBN, :title, :Author, :language, :published, :edition, :image, :summary, :specialCollection, :returnDate, :student_id, :library_id)
+      params.require(:book).permit(:ISBN, :title, :Author, :language, :published, :edition, :image, :summary, :specialCollection,:library_id, :available)
     end
 
     # explicit authentication method
