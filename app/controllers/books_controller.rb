@@ -11,6 +11,11 @@ class BooksController < ApplicationController
   # GET /books/1
   # GET /books/1.json
   def show
+    if admin_signed_in?
+        @book_histories = BookHistory.GetBookHistory(:admin,nil,params[:id])
+    elsif librarian_signed_in?
+        @book_histories = BookHistory.GetBookHistory(:librarian,nil,params[:id])
+    end	
   end
 
   # GET /books/new
@@ -66,12 +71,14 @@ class BooksController < ApplicationController
     # HoldBookTracker.find_by_
     @book = Book.find(params[:id])	
     @student = current_student
-    if @student
-    	alreadyIssued = BookHistory.checkIfAlreadyIssued?(@book.id,@student.id)	
+    if @student	
     	respond_to do |format|
-      		if alreadyIssued
+      		if BookHistory.checkIfAlreadyIssued?(@book.id,@student.id)
         		format.html { redirect_to @book, notice: 'Book is already Issued.' }
         		format.json { render :show, status: :ok, location: @book }
+		elsif BookHistory.checkMaxLimit?(@student.id)
+			format.html { redirect_to @book, notice: 'Max Checkout Limit Reached' }
+                        format.json { render :show, status: :ok, location: @book }
       		elsif  Book.createNewCheckoutEntry?(@book.id,@student.id) and Book.updateAvailableCounter?(@book.id,-1)	
           		format.html { redirect_to @book, notice: 'Checkout Successful.' }
           		format.json { render :show, status: :ok, location: @book }
@@ -90,7 +97,7 @@ class BooksController < ApplicationController
 
 		respond_to do |format|
 			if Book.updateExistingCheckoutEntry?(@book.id,@student.id) and Book.updateAvailableCounter?(@book.id,1)
-				format.html { redirect_to @book, notice: 'Checkout Successful.' }
+				format.html { redirect_to @book, notice: 'Book Returned Successfully' }
 				format.json { render :show, status: :ok, location: @book }
 			else
 				format.html { redirect_to @book, notice: 'Your Request Could NOT be handled, please contact support staff.' }
