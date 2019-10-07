@@ -117,6 +117,28 @@ class BooksController < ApplicationController
     end
   end
 
+  def addToWishList
+    # HoldBookTracker.find_by_
+    @book = Book.find(params[:id])
+    # @student = current_student
+    respond_to do |format|
+      if current_student.bookmarks.present? && current_student.bookmarks.split(";").include?(params[:id])
+        redirectWithMessage(format, 'Book is already in your WishList.')
+      else
+        if current_student.bookmarks.present? == false || current_student.bookmarks.split(";").present? == false
+          current_student.bookmarks = @book.id
+        else
+          current_student.bookmarks << ";" << @book.id
+        end
+      end
+      if current_student.save
+        redirectWithMessage(format, 'Your Request is successfully Handled.')
+      else
+        redirectWithMessage(format, 'Your Request could NOT be handled, please contact support staff.')
+      end
+    end
+  end
+
   private
 
   def redirectWithMessage(format, message)
@@ -131,7 +153,7 @@ class BooksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
-      params.require(:book).permit(:ISBN, :title, :Author, :language, :published, :edition, :cover, :summary, :specialCollection,:library_id, :available)
+      params.require(:book).permit(:ISBN, :title, :Author, :language, :published, :bookmarks,:edition, :cover, :summary, :specialCollection,:library_id, :available)
     end
 
     # explicit authentication method

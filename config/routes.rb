@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       post 'placeHoldRequest'
       post 'placeCheckoutRequest'
       post 'returnBook'	 
+      post 'addToWishList'
     end
   end
   resources :libraries
