@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Book Histories</h1>
 
 <table>
   <thead>
@@ -27,7 +25,9 @@
         <td><% if book_history.student.present? %> <%= book_history.student.name%><%else%><%end%></td>
         <td><%= book_history.issueDate %></td>
         <td><%= book_history.returnDate %></td>
-	<td><%= link_to 'Return',{ :controller => :books, :action => :returnBook, :id => book_history.book.id}, :method => :post  %></td>
+	<td>
+	<%- if student_signed_in? %>
+	<%= link_to 'Return',{ :controller => :books, :action => :returnBook, :id => book_history.book.id}, :method => :post  %><% end %></td>
       </tr>
     <% end %>
   </tbody>
