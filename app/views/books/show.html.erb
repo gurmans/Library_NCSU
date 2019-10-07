@@ -46,8 +46,8 @@
 </p>
 
 <p>
-  <strong>Returndate:</strong>
-  <%= @book.returnDate %>
+  <strong>Available:</strong>
+  <%= @book.available %>
 </p>
 
 <%#- if current_student.present? && current_student.university_id == @book.Library.university_id %>
@@ -57,21 +57,25 @@
   </p>
 <%# end  %>
 
-<!--    Plus another condition that if available books count is more than 0.-->
 <%- if student_signed_in?%>
   <%- if current_student.university_id == @book.library.university_id %>
-    <p>
-      <%= link_to 'Checkout/Reserve', { :controller => :books, :action => :placeCheckoutRequest, :id => @book.id}, :method => :post %>
-    </p>
+	<%- if @book.available > 0 and !@book.specialCollection%>	
+    		<p>
+      			<%= link_to 'Checkout/Reserve', { :controller => :books, :action => :placeCheckoutRequest, :id => @book.id}, :method => :post %>
+    		</p>
+	<% else %>
+		<p>
+			<%- if @book.specialCollection %>
+				<span>Book is from Special Collection!!(Needs Librarian Approval)</span>
+			<% else %>
+				<span>Book is out of stock!!(Place hold request) </span>	
+			<%= link_to 'Request Hold', { :controller => :books, :action => :placeHoldRequest, :id => @book.id}, :method => :post %>
+			<% end %>
+		</p>
+	<% end %>
   <% end %>
 <% end %>
 
-<!--  Plus another condition that if available books count is 0.-->
-<%- if student_signed_in?%>
-  <%- if current_student.university_id == @book.library.university_id %>
-    <%= link_to 'Request Hold', { :controller => :books, :action => :placeHoldRequest, :id => @book.id}, :method => :post %>
-  <% end %>
-<% end %>
 
 <%- if admin_signed_in? or librarian_signed_in? %>
         <%- if librarian_signed_in? %>
