@@ -34,12 +34,7 @@ class BookHistory < ApplicationRecord
   end
 	 
   def self.checkMaxLimit?(studentid)
-  	prgrm = Program.where(:id=>Student.where(:id=>studentid))
-	if prgrm
-		maxLimit = prgrm[0].maxNumberOfBooksIssuable
+		maxLimit = Student.find(studentid).program.maxNumberOfBooksIssuable
 		return BookHistory.where(:student_id=>studentid,:returnDate=>nil).count >= maxLimit
-	else
-		return true
-	end
-  end		  
+  end
 end

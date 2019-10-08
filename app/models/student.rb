@@ -6,4 +6,5 @@ class Student < ApplicationRecord
   belongs_to :program
   belongs_to :university
   has_many :hold_book_trackers, :dependent => :destroy
+  has_many :books, :dependent => :restrict_with_error
 end
