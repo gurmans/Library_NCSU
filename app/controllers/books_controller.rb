@@ -76,7 +76,7 @@ class BooksController < ApplicationController
     	respond_to do |format|
       		if BookHistory.checkIfAlreadyIssued?(@book.id,@student.id)
             redirectWithMessage(format, @book,'Book is already Issued.')
-          elsif BookHistory.checkMaxLimit?(@student.id)
+          elsif BookHistory.checkMaxLimitReached?(@student.id)
             redirectWithMessage(format, @book,'Max Checkout Limit Reached')
       		elsif  Book.createNewCheckoutEntry?(@book.id,@student.id) and Book.updateAvailableCounter?(@book.id,-1)
             redirectWithMessage(format, @book,'Checkout Successful.')

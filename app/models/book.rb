@@ -36,10 +36,11 @@ class Book < ApplicationRecord
         previous_fine = student.overdueFromReturnedBooks
         previous_fine.present? ? student.update(:overdueFromReturnedBooks=>previous_fine+current_fine) : student.update(:overdueFromReturnedBooks=>current_fine)
       end
-      if !book.specialCollection and newStudentEntry = HoldBookTracker.where(:book_id=> bookid)&.order(:created_at).first
-        self.createNewCheckoutEntry?(bookid,newStudentEntry.student_id)
+      if !book.specialCollection and nextStudentEntries = HoldBookTracker.where(:book_id=> bookid)&.order(:created_at)
+        nextStudentEntry = nextStudentEntries.each { |entry| if BookHistory.checkMaxLimitReached?(entry.student.id) then return entry end}
+        self.createNewCheckoutEntry?(bookid,nextStudentEntry.student_id)
         self.updateAvailableCounter?(bookid,-1)
-        newStudentEntry.destroy
+        nextStudentEntry.destroy
       end
       return true
     end
