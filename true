@@ -1,0 +1,2 @@
+      invoke  active_record
+      create    db/migrate/20191007073140_add_index_to_column_name.rb
