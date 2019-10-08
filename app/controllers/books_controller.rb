@@ -92,7 +92,7 @@ class BooksController < ApplicationController
         if @student
 
 		respond_to do |format|
-			if Book.updateExistingCheckoutEntry?(@book.id,@student.id) and Book.updateAvailableCounter?(@book.id,1)
+			if Book.returnBook?(@book.id, @student.id) and Book.updateAvailableCounter?(@book.id, 1)
 				format.html { redirect_to @book, notice: 'Book Returned Successfully' }
 				format.json { render :show, status: :ok, location: @book }
 			else

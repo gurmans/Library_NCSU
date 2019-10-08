@@ -12,7 +12,7 @@ class Book < ApplicationRecord
     bookHistory.save
   end
 
-  def self.updateExistingCheckoutEntry?(bookid,studentid)
+  def self.returnBook?(bookid,studentid)
     returnDate = Date.current
     bookHistory = BookHistory.find_by(returnDate: nil, book_id: bookid, student_id: studentid)
     if bookHistory.update(:returnDate=>returnDate)
