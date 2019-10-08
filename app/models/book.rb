@@ -2,6 +2,7 @@ class Book < ApplicationRecord
   belongs_to :student, optional: true
   belongs_to :library
   has_many :hold_book_trackers, :dependent => :destroy
+  has_many :book_histories, :dependent => :destroy
   has_one_attached :cover
 
   def self.createNewCheckoutEntry?(bookid,studentid)
@@ -22,9 +23,13 @@ class Book < ApplicationRecord
         current_fine = book.library.overdueFine * diff.to_i
         previous_fine = student.overdueFromReturnedBooks
         previous_fine.present? ? student.update(:overdueFromReturnedBooks=>previous_fine+current_fine) : student.update(:overdueFromReturnedBooks=>current_fine)
-      else
-        return true
       end
+      if newStudentEntry = HoldBookTracker.where(:book_id=> bookid)&.order(:created_at).first
+        self.createNewCheckoutEntry?(bookid,newStudentEntry.student_id)
+        self.updateAvailableCounter?(bookid,-1)
+        HoldBookTracker.destroy(newStudentEntry.id)
+      end
+      return true
     end
 
   end 
