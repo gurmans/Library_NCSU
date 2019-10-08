@@ -12,4 +12,5 @@ class Student < ApplicationRecord
   validates :program_id , presence: true
 
   has_many :hold_book_trackers, :dependent => :destroy
+  has_many :books, :dependent => :restrict_with_error
 end

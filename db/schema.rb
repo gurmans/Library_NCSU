@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_06_230013) do
+ActiveRecord::Schema.define(version: 2019_10_07_231946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_230013) do
     t.datetime "updated_at", null: false
     t.bigint "book_id"
     t.bigint "student_id"
+    t.date "dueDate"
     t.index ["book_id"], name: "index_book_histories_on_book_id"
     t.index ["student_id"], name: "index_book_histories_on_student_id"
   end
@@ -143,6 +144,7 @@ ActiveRecord::Schema.define(version: 2019_10_06_230013) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.decimal "overdueFromReturnedBooks"
     t.index ["email"], name: "index_students_on_email", unique: true
     t.index ["program_id"], name: "index_students_on_program_id"
     t.index ["reset_password_token"], name: "index_students_on_reset_password_token", unique: true

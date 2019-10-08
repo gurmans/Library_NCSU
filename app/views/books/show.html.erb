@@ -62,22 +62,26 @@
       		<%= link_to 'Add to Wish List', { :controller => :books, :action => :addToWishList, :id => @book.id}, :method => :post %>
     	  </p>
 
-        <%- if !BookHistory.checkIfAlreadyIssued?(@book.id,current_student.id) and !BookHistory.checkMaxLimit?(current_student.id) %> 
-	<%- if @book.available > 0 and !@book.specialCollection%>	
-    		<p>
-      			<%= link_to 'Checkout/Reserve', { :controller => :books, :action => :placeCheckoutRequest, :id => @book.id}, :method => :post %>
-    		</p>
-	<% else %>
-		<p>
-			<%- if @book.specialCollection %>
-				<span>Book is from Special Collection!!(Needs Librarian Approval)</span>
-			<% else %>
-				<span>Book is out of stock!!(Place hold request) </span>
-			<% end %>
-			<%= link_to 'Request Hold', { :controller => :books, :action => :placeHoldRequest, :id => @book.id}, :method => :post %>
-		</p>
-	<% end %>
-	<% end %>
+        <%- if !BookHistory.checkIfAlreadyIssued?(@book.id,current_student.id) %>
+              <%- if @book.available.present? and @book.available > 0 and !@book.specialCollection%>
+                    <p>
+                        <%= link_to 'Checkout/Reserve', { :controller => :books, :action => :placeCheckoutRequest, :id => @book.id}, :method => :post %>
+                    </p>
+              <% else %>
+                <p>
+                  <%- if @book.specialCollection %>
+                    <span>Book is from Special Collection!!(Needs Librarian Approval)</span>
+                  <% else %>
+                    <span>Book is out of stock!!(Place hold request) </span>
+                  <% end %>
+                  <%= link_to 'Request Hold', { :controller => :books, :action => :placeHoldRequest, :id => @book.id}, :method => :post %>
+                </p>
+              <% end %>
+        <% else %>
+          <p>
+            <%= link_to 'Return',{ :controller => :books, :action => :returnBook, :id => @book.id}, :method => :post  %>
+          </p>
+        <% end %>
   <% end %>
 <% end %>
 
@@ -91,7 +95,7 @@
         <% end %>
 <% end %>
 
-<%= link_to 'Back', books_path %>
+<%= link_to 'Show All Books', books_path %>
 
 <%- if admin_signed_in? or librarian_signed_in? %>
 	<h1>Book History :- </h1>

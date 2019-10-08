@@ -17,20 +17,34 @@ class Book < ApplicationRecord
 
 
   def self.createNewCheckoutEntry?(bookid,studentid)
-	currentDate = Date.current
-	bookHistory = BookHistory.new(:issueDate=>currentDate,:book_id=>bookid,:student_id=>studentid)
-	bookHistory.save	
+    currentDate = Date.current
+    dueDate = Date.current.next_day(Book.find(bookid).library.bookBorrowingDaysLimit)
+    bookHistory = BookHistory.new(:dueDate=> dueDate, :issueDate=>currentDate,:book_id=>bookid,:student_id=>studentid)
+    bookHistory.save
   end
 
   def self.updateExistingCheckoutEntry?(bookid,studentid)
-	currentDate = Date.current
-	bookHistory = BookHistory.where(:returnDate=>nil,:book_id=>bookid,:student_id=>studentid)
-	bookHistory.update(:returnDate=>currentDate)	
+    returnDate = Date.current
+    bookHistory = BookHistory.find_by(returnDate: nil, book_id: bookid, student_id: studentid)
+    if bookHistory.update(:returnDate=>returnDate)
+      if returnDate > bookHistory.dueDate
+        student = Student.find(studentid)
+        book = Book.find(bookid)
+        diff = returnDate - bookHistory.dueDate
+        current_fine = book.library.overdueFine * diff.to_i
+        previous_fine = student.overdueFromReturnedBooks
+        previous_fine.present? ? student.update(:overdueFromReturnedBooks=>previous_fine+current_fine) : student.update(:overdueFromReturnedBooks=>current_fine)
+      else
+        return true
+      end
+    end
+
   end 
 
   def self.updateAvailableCounter?(bookid,adder)
-	updateBook = Book.find(bookid)
+      	updateBook = Book.find(bookid)
         availableCounter = updateBook.available + adder
-	updateBook.update(:available=>availableCounter)
-  end	 	
+	      updateBook.update(:available=>availableCounter)
+  end
+
 end
