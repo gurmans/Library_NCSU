@@ -7,8 +7,12 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.paths << Emoji.images_path
 # Add Yarn node_modules folder to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
-
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
-# Rails.application.config.assets.precompile += %w( admin.js admin.css )
+Rails.application.config.assets.precompile += %w(jquery.min.js)
+Rails.application.config.assets.precompile += %w(kendo.web.min.js)
+Rails.application.config.assets.precompile += %w(kendo.grid.min.js)
+Rails.application.config.assets.precompile += %w(kendo.autocomplete.min.js)
+Rails.application.config.assets.precompile += %w(kendo.default.min.css)
+Rails.application.config.assets.precompile += %w(kendo.common.min.css)
