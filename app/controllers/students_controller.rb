@@ -29,6 +29,7 @@ class StudentsController < ApplicationController
 
     respond_to do |format|
       if @student.save
+        ExampleMailer.send_email(@student).deliver_now
         format.html { redirect_to @student, notice: 'Student was successfully created.' }
         format.json { render :show, status: :created, location: @student }
       else
