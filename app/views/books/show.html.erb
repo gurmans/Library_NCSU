@@ -30,6 +30,11 @@
 </p>
 
 <p>
+  <strong>Subject:</strong>
+  <%= @book.subject %>
+</p>
+
+<p>
   <strong>Image:</strong>
   <% if @book.cover.attached? %> <img src="<%=url_for(@book.cover) %>" height="60" width="40" /> <%end%>
 </p>

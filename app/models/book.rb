@@ -20,5 +20,5 @@ class Book < ApplicationRecord
 	updateBook = Book.find(bookid)
         availableCounter = updateBook.available + adder
 	updateBook.update(:available=>availableCounter)
-  end	 	
-end
+  end
+end  
