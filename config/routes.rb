@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       post 'placeCheckoutRequest'
       post 'returnBook'	 
       post 'addToWishList'
+      post 'remove_from_wish_list'
+      post 'cancelHoldRequest'
     end
   end
   resources :libraries

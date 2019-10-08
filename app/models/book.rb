@@ -28,18 +28,18 @@ class Book < ApplicationRecord
     returnDate = Date.current
     bookHistory = BookHistory.find_by(returnDate: nil, book_id: bookid, student_id: studentid)
     if bookHistory.update(:returnDate=>returnDate)
+      book = Book.find(bookid)
       if returnDate > bookHistory.dueDate
         student = Student.find(studentid)
-        book = Book.find(bookid)
         diff = returnDate - bookHistory.dueDate
         current_fine = book.library.overdueFine * diff.to_i
         previous_fine = student.overdueFromReturnedBooks
         previous_fine.present? ? student.update(:overdueFromReturnedBooks=>previous_fine+current_fine) : student.update(:overdueFromReturnedBooks=>current_fine)
       end
-      if newStudentEntry = HoldBookTracker.where(:book_id=> bookid)&.order(:created_at).first
+      if !book.specialCollection and newStudentEntry = HoldBookTracker.where(:book_id=> bookid)&.order(:created_at).first
         self.createNewCheckoutEntry?(bookid,newStudentEntry.student_id)
         self.updateAvailableCounter?(bookid,-1)
-        HoldBookTracker.destroy(newStudentEntry.id)
+        newStudentEntry.destroy
       end
       return true
     end
@@ -50,6 +50,10 @@ class Book < ApplicationRecord
       	updateBook = Book.find(bookid)
         availableCounter = updateBook.available + adder
 	      updateBook.update(:available=>availableCounter)
+  end
+
+  def self.cancelHoldRequest?(bookid, studentid)
+    Book.find(bookid).hold_book_trackers&.find_by_student_id(studentid)&.destroy
   end
 
 end
