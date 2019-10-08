@@ -4,6 +4,18 @@ class Book < ApplicationRecord
   has_many :hold_book_trackers, :dependent => :destroy
   has_many :book_histories, :dependent => :destroy
   has_one_attached :cover
+  validates :ISBN, uniqueness: true
+  validates :title , presence: true 
+  validates :Author , presence: true
+  validates :library_id , presence: true
+  validates :language , presence: true
+  validates :published , presence: true
+  validates :edition , presence: true
+  validates :cover , presence: true
+  validates :summary , presence: true
+  validates :specialCollection , presence: true
+  validates :published , presence: true
+
 
   def self.createNewCheckoutEntry?(bookid,studentid)
     currentDate = Date.current
