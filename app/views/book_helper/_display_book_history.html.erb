@@ -1,0 +1,39 @@
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Book</th>
+      <th>Title</th>	
+      <th>Issued To</th>
+      <th>Issue Date</th>
+      <th>Due Date</th>
+      <th>Return Date</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @book_histories.each do |book_history| %>
+      <tr>
+        <% if book_history.book.present? %>
+                <td><%= book_history.book.ISBN %></td>
+          <td><%= book_history.book.title %></td>
+        <% else %>
+          <td></td>
+          <td></td>
+        <% end %>
+        <td><% if book_history.student.present? %> <%= book_history.student.name%><%else%><%= book_history.student_id %><%end%></td>
+        <td><%= book_history.issueDate %></td>
+        <td><%= book_history.dueDate %></td>
+        <td><%= book_history.returnDate %></td>
+        <td>
+          <%- if student_signed_in? %>
+          <%= link_to 'Return',{ :controller => :books, :action => :returnBook, :id => book_history.book.id}, :method => :post  %><% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
