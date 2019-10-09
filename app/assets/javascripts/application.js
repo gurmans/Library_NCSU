@@ -14,6 +14,3 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
-//= require jquery.min.js
-//= require kendo.web.min.js
-//= require kendo.autocomplete.min.js 

@@ -1,32 +1,7 @@
 
-<% content_for :javascript_includes do %>
-  <%= javascript_include_tag "jquery.min.js" %>
-  <%= javascript_include_tag "kendo.web.min.js" %>
-  <%= javascript_include_tag "kendo.autocomplete.min.js" %>	    
-<% end %>
-
-<% content_for :stylesheet_includes do %>
-  <%= stylesheet_link_tag "kendo.default.min.css" %>
-  <%= stylesheet_link_tag "kendo.common.min.css" %> 	
-<% end %>
-
-
 <h1>Books</h1>
 
-<table id="grid">
-  <colgroup>
-            <col style="width:20px"/>
-            <col style="width:20px" />
-	    <col style="width:20px"/>
-	    <col style="width:20px" />
-            <col style="width:20px"/>
-	    <col style="width:25px" />
-            <col style="width:20px"/>
-	    <col style="width:20px" />
-	    <col style="width:25px" />
-	    <col style="width:20px" />
-            <col style="width:30px" />		 	
-  </colgroup>
+<table id="grid" style="table-layout: fixed;">
   <thead>
     <tr>
       <th data-field="ISBN" data-filterable="false">Isbn</th>
@@ -83,12 +58,89 @@
 <script> 
        
 		$(document).ready(function() {
-			$("#grid").kendoGrid({
-				sortable: true,
+			$("#grid").kendoGrid({				
 				filterable: {
 					mode: "row"
 				},
-				pageable: true								
-			});	
+				pageable: true,
+				columns:    [
+									{
+										field:"ISBN",
+										filterable: false,
+										width: 30
+									},              
+									{
+										field: "title",
+										filterable: {
+											cell: {
+												operator: "contains",
+												suggestionOperator: "contains"
+											}
+										},
+										width: 40
+									}, 
+									{
+										field: "Author",
+										filterable: {
+											cell: {
+                                                operator: "contains",
+                                                suggestionOperator: "contains"
+											}
+										},
+										width: 40
+									}, 
+									{
+										field: "Library",
+										filterable: false,
+										width: 25		
+									}, 
+									{
+										field: "language",
+										filterable: false,
+										width: 30		
+									}, 
+									{
+										field: "published",
+										filterable: {
+											cell: {
+                                                operator: "eq"                                                
+											}
+										},                              
+										format: "{0:MM/dd/yyyy}",
+										width: 40
+									}, 
+									{
+										field: "edition",
+										filterable: false,
+										width: 30
+									}, 
+									{
+										field: "subject",
+										filterable: {
+											cell: {
+                                                operator: "contains",
+                                                suggestionOperator: "contains"
+											}
+										},
+										width: 40
+									}, 
+									{
+										field: "specialCollection",
+										filterable: false,
+										width: 50
+									}, 
+									{
+										field: "available",
+										filterable: false,
+										width: 30
+									},
+									{
+										field: "Action",
+										filterable: false,
+										width: 40
+									}
+												
+						]
+			});			
 		});
 </script>
