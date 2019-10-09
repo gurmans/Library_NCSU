@@ -22,7 +22,11 @@ Rails.application.routes.draw do
   	resources :students
   end
   scope "/admin" do	
-  	resources :librarians
+  	resources :librarians do
+	  collection do
+		post 'handleSpecialCollectionRequest'
+	  end
+	end	 	
   end	
   resources :universities
   root to: 'pages#home'	

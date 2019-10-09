@@ -115,8 +115,8 @@
 	<h1>Book History :- </h1>
         <%- if librarian_signed_in? %>
                 <%- if current_librarian.library.id == @book.library.id %>
-                       	<%= render "book_histories/display_book_history" %>
+                       	<%= render "book_helper/display_book_history" %>
                 <% end  %>                                                                                                      <%- else %>
-                <%= render "book_histories/display_book_history" %>
+                <%= render "book_helper/display_book_history" %>
         <% end %>
 <% end %>
