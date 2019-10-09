@@ -20,12 +20,12 @@ class HoldBookTracker < ApplicationRecord
   
   def self.handleSpecialCollectionRequest?(bookid,studentid,approve)
 	if Book.find(bookid).specialCollection
-	  if approve
+	  if approve == "true"
 		Book.createNewCheckoutEntry?(bookid,studentid)
 		Book.updateAvailableCounter?(bookid,-1)
-		return HoldBookTracker.find_by(:book_id=>bookid,:student_id=>studentid)&.destroy
+		return HoldBookTracker.find_by(:book_id=>bookid,:student_id=>studentid)&.destroy.destroyed?
 	  else
-		return HoldBookTracker.find_by(:book_id=>bookid,:student_id=>studentid)&.destroy
+		return HoldBookTracker.find_by(:book_id=>bookid,:student_id=>studentid)&.destroy.destroyed?
 	  end	
     end
     return false	
