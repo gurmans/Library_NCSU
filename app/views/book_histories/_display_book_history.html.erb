@@ -23,7 +23,7 @@
           <td></td>
           <td></td>
         <% end %>
-        <td><% if book_history.student.present? %> <%= book_history.student.name%><%else%><%end%></td>
+        <td><% if book_history.student.present? %> <%= book_history.student.name%><%else%><%= book_history.student_id %><%end%></td>
         <td><%= book_history.issueDate %></td>
         <td><%= book_history.dueDate %></td>
         <td><%= book_history.returnDate %></td>

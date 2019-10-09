@@ -7,13 +7,14 @@ Rails.application.routes.draw do
   devise_for :librarians, controllers: { sessions: 'librarians/sessions', registrations: 'librarians/registrations' }
   devise_for :students, controllers: { sessions: 'students/sessions', registrations: 'students/registrations' }
   resources :programs
-  resources :book_histories
   resources :books do
     collection do
       post 'placeHoldRequest'
       post 'placeCheckoutRequest'
       post 'returnBook'	 
       post 'addToWishList'
+      post 'remove_from_wish_list'
+      post 'cancelHoldRequest'
     end
   end
   resources :libraries
