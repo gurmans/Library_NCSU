@@ -11,9 +11,6 @@ class Book < ApplicationRecord
   validates :language , presence: true
   validates :published , presence: true
   validates :edition , presence: true
-  validates :cover , presence: true
-  validates :summary , presence: true
-  validates :specialCollection , presence: true
   validates :published , presence: true
 
 
@@ -37,14 +34,16 @@ class Book < ApplicationRecord
         previous_fine.present? ? student.update(:overdueFromReturnedBooks=>previous_fine+current_fine) : student.update(:overdueFromReturnedBooks=>current_fine)
       end
       if !book.specialCollection and nextStudentEntries = HoldBookTracker.where(:book_id=> bookid)&.order(:created_at)
-        nextStudentEntry = nextStudentEntries.each { |entry| if BookHistory.checkMaxLimitReached?(entry.student.id) then return entry end}
-        self.createNewCheckoutEntry?(bookid,nextStudentEntry.student_id)
-        self.updateAvailableCounter?(bookid,-1)
-        nextStudentEntry.destroy
+        nextStudentEntry = nextStudentEntries.find { |entry| !BookHistory.checkMaxLimitReached?(entry.student.id) }
+        if nextStudentEntry
+        	self.createNewCheckoutEntry?(bookid,nextStudentEntry.student_id)
+        	self.updateAvailableCounter?(bookid,-1)
+        	nextStudentEntry.destroy
+	end
       end
       return true
     end
-
+    return false	
   end 
 
   def self.updateAvailableCounter?(bookid,adder)
