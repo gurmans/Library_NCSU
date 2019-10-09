@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   devise_for :librarians, controllers: { sessions: 'librarians/sessions', registrations: 'librarians/registrations' }
   devise_for :students, controllers: { sessions: 'students/sessions', registrations: 'students/registrations' }
   resources :programs
-  resources :book_histories
   resources :books do
     collection do
       post 'placeHoldRequest'

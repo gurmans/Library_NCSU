@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_07_231946) do
+ActiveRecord::Schema.define(version: 2019_10_08_215001) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
+    t.integer "record_id", null: false
+    t.integer "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_231946) do
   end
 
   create_table "books", force: :cascade do |t|
-    t.string "ISBN"
+    t.integer "ISBN"
     t.string "title"
     t.string "Author"
     t.string "language"
@@ -70,8 +70,8 @@ ActiveRecord::Schema.define(version: 2019_10_07_231946) do
     t.boolean "specialCollection"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "student_id"
-    t.bigint "library_id"
+    t.integer "student_id"
+    t.integer "library_id"
     t.integer "available"
     t.index ["library_id"], name: "index_books_on_library_id"
     t.index ["student_id"], name: "index_books_on_student_id"
@@ -80,8 +80,8 @@ ActiveRecord::Schema.define(version: 2019_10_07_231946) do
   create_table "hold_book_trackers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "student_id"
-    t.bigint "book_id"
+    t.integer "student_id"
+    t.integer "book_id"
     t.index ["book_id"], name: "index_hold_book_trackers_on_book_id"
     t.index ["student_id"], name: "index_hold_book_trackers_on_student_id"
   end
@@ -93,11 +93,12 @@ ActiveRecord::Schema.define(version: 2019_10_07_231946) do
     t.string "bookmarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "library_id"
+    t.integer "library_id"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.boolean "approved", default: false
     t.index ["email"], name: "index_librarians_on_email", unique: true
     t.index ["library_id"], name: "index_librarians_on_library_id"
     t.index ["reset_password_token"], name: "index_librarians_on_reset_password_token", unique: true
@@ -110,7 +111,7 @@ ActiveRecord::Schema.define(version: 2019_10_07_231946) do
     t.decimal "overdueFine"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "university_id"
+    t.integer "university_id"
     t.index ["university_id"], name: "index_libraries_on_university_id"
   end
 
@@ -135,8 +136,8 @@ ActiveRecord::Schema.define(version: 2019_10_07_231946) do
     t.string "bookmarks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "program_id"
-    t.bigint "university_id"
+    t.integer "program_id"
+    t.integer "university_id"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -160,15 +161,4 @@ ActiveRecord::Schema.define(version: 2019_10_07_231946) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "book_histories", "books"
-  add_foreign_key "book_histories", "students"
-  add_foreign_key "books", "libraries"
-  add_foreign_key "books", "students"
-  add_foreign_key "hold_book_trackers", "books"
-  add_foreign_key "hold_book_trackers", "students"
-  add_foreign_key "librarians", "libraries"
-  add_foreign_key "libraries", "universities"
-  add_foreign_key "students", "programs"
-  add_foreign_key "students", "universities"
 end
