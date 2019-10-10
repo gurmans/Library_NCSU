@@ -8,6 +8,8 @@
 <li> <%= link_to "View Libraries", libraries_path()  %> </li>
 </ul>
 
+<th><%= link_to "View Students with pending overdues", { :controller => :students, :action => :get_overdue_students}, :method => :get  %></th>
+
 <br />
 <br />
 <h3>Checked Out Books List :- </h3>

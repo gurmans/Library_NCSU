@@ -9,6 +9,11 @@ class PagesController < ApplicationController
 		redirect_to root_path	
 	else
         	@book_histories = BookHistory.GetBookHistory(:admin)
+					@book_histories.each do |history| if history.dueDate != nil and Date.current > history.dueDate and book = Book.find(history.book_id)
+																							history.overdue_amount = book.library.overdueFine * (Date.current - history.dueDate).to_i
+																						end
+					end
+
 	end 
   end
 
@@ -17,6 +22,11 @@ class PagesController < ApplicationController
                 redirect_to root_path
 	else
 		@book_histories = BookHistory.GetBookHistory(:student,current_student)
+		@book_histories.each do |history| if history.dueDate != nil and  Date.current > history.dueDate and book = Book.find(history.book_id)
+																				history.overdue_amount = book.library.overdueFine * (Date.current - history.dueDate).to_i
+																			end
+		end
+
 	end
   end
 
@@ -25,6 +35,11 @@ class PagesController < ApplicationController
                 redirect_to root_path  
 	else
 		@book_histories = BookHistory.GetBookHistory(:librarian,current_librarian)
- 	end
+		@book_histories.each do |history| if history.dueDate != nil and  Date.current > history.dueDate and book = Book.find(history.book_id)
+																				history.overdue_amount = book.library.overdueFine * (Date.current - history.dueDate).to_i
+																			end
+		end
+
+	end
   end
 end

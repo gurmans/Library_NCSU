@@ -17,13 +17,16 @@ Rails.application.routes.draw do
       post 'addToWishList'
       post 'remove_from_wish_list'
       post 'cancelHoldRequest'
+      get 'display_book_history'
     end
   end
   resources :libraries
   scope "/admin" do
   	resources :students
   end
-  scope "/admin" do	
+  get 'get_overdue_students', action: :get_overdue_students, controller: 'students'
+  get 'display_book_history', action: :display_book_history, controller: 'books'
+  scope "/admin" do
   	resources :librarians
   end	
   resources :universities
