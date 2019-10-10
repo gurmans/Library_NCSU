@@ -67,6 +67,9 @@ class StudentsController < ApplicationController
     @checkedoutBooks = BookHistory.where(:returnDate => nil).to_a
     @checkedoutBooks&.delete_if {|book| book.dueDate != nil and book.dueDate >= Date.current}
     @checkedoutBooks.concat BookHistory.where.not(:overdue_amount => nil).to_a
+    if librarian_signed_in?
+      @checkedoutBooks&.delete_if {|bookhistory| Book.find(bookhistory.book_id).library_id != current_librarian.library_id}
+    end
     @students = @checkedoutBooks&.map {|entry| Student.where(:id =>entry.student_id)&.first}.compact.uniq
       # @students = Student.where.not(:overdueFromReturnedBooks => nil)&.to_a
       # @students.concat Student.where(:id => BookHistory.where(:returnDate => nil)&.map { |history| history.student_id })&.to_a
