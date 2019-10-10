@@ -1,123 +1,73 @@
-# Library_NCSU
-Project for Program2 CSC517 OODD
-Here is description of all the functionality in the project:
-The environmental setup required is as follows:
+## CSC/ECE 517 - Object Oriented Design and Development
+# Program 2 - Ruby on Rails
 
-        1. Ruby  --version 2.6.4
-        2. Rails --version 6.0.0
+## Library Management 
+## Admin
 
-Follow these steps to get the project running:
-      
-        1. Bundle install #installs all the gem
-        2. Rake db:migrate #helps in migrations of the db
-        3. Rake db:seed #used for initialize some values in the db
-        4. Rails server #to start the rails app.
- 
-        
-Some of the important components of the system are :
+Admin is preconfigured with the following attributes: 
+* Email : jpg@gmail.com
+* Name :	 jpg
+* Password : jpg123
 
-        1. Admin
-        2. University
-        3. Library
-        4. Book
-        5. Student
-        6. Librarian
-        
-Library->
-A library has the attributes of Name, University, Location, Maximum no of days a book can be borrowed, Overdue fines
+Admin is able to:
 
-Book->
-A book has the attributes of ISBN, Title, Author, language, Published, Edition, Associated Library and many more.
+* Log in with an email and password
+* Edit profile
+* Create/Modify Librarian or Student accounts
+* Create Books.
+* View the list of users (students and librarians) and their profile details (except password)
+* View the list of books, along with detailed information.
+* View the list of book hold requests. – AVAILABLE ON HOMEPAGE
+* View the list of Checked out books.  – AVAILABLE ON HOMEPAGE
+* View the list of students with books overdue (along with overdue fines– LINK AVAILABLE AT HOMEPAGE WITH FOLLOWING NAME – “View Students with pending overdues”
+Note: The overdue amount here represents the fine to student for any previous overdue book.
+-FURTHER LINK TO DETAILED OVERDUE BOOKS AVAILABLE AT THE “books” sub-link
 
-Librarian->
-A librarian has the attributes of Email(unique), Name, Password, Library.
-
-Student->
-A student has the attributes of Email(unique), Name, Password, Educational level(program), University, Maximum number of books that can be borrowed depending on the level of education.
-
-## ADMIN FUNCTIONALITIES:-
-
-1. Log in with email and password.
-
-   Email - jpg@gmail.com
-   
-   password- jpg123
-
-2. Edit their own profile to choose an existing library. Each librarian can only work for one library.
-
-3. Edit library attributes.
-
-4. Add/Remove books to/from a library.
-
-5. View & Edit book information.
-
-6. View all books.
-
-7. View hold requests for any book in the library he/she works in.
-
-8. For books in the special collection, accept or deny book hold request.
-
-9. View list of all the books that are checked out from their library.
-
-10. View the borrowing history of the books from their library.
-
-11. View the list of students with overdue books from their library along with overdue fine.
+* View the borrowing history of each book. – AVAILABLE ON HOMEPAGE
+* Delete Student/Book/Librarian from the system
 
 
-## LIBRARIAN FUNCTIONALITIES
-1. Log in with email and password.
+## Librarian
 
-2. Edit their own profile to choose an existing library. Each librarian can only work for one library.
+Anyone can sign up as a librarian using their email, name and password. After signing up, admin needs to approve the request before they can perform the following tasks:
 
-3. Edit library attributes.
+* Log in with email and password.
+* Edit their own profile to choose an existing library. Each librarian can only work for one library.
+* Edit library attributes.
+* Add/Remove books to/from their own library.
+* View & Edit book information.
+* View all books.
+* View hold requests for any book in the library he/she works in. – AVAILABLE IN HOMEPAGE
+* For books in the special collection, accept or deny book hold request. – AVAILABLE IN HOMEPAGE
+* View list of all the books that are checked out from their library. – AVAILABLE ON HOMEPAGE
+* View the borrowing history of the books from their library. – AVAILABLE AFTER CLICKING ON “show” BUTTON AGAINST A BOOK IN THE “View Books” link.
+“View Books”-> “show”
+* View the list of students with overdue books from their library along with overdue fine. – LINK AVAILABLE AT HOMEPAGE WITH FOLLOWING NAME – “View Students with pending overdues”
+Note: The overdue amount here represents the fine to student for any previous overdue book.
+-FURTHER LINK TO DETAILED OVERDUE BOOKS AVAILABLE AT THE “books” sub-link
 
-4. Add/Remove books to/from a library.
 
-5. View & Edit book information.
+## Students
 
-6. View all books.
+Anyone can sign up as a student using their email, name and password. After signing up, they can perform the following tasks:
+Note: user can use same email id to register both as librarian and student
 
-7. View hold requests for any book in the library he/she works in.
+* View the list of all the libraries
+* Edit profile to modify email, name and password only.
+* View all books
+* Check out/Request/Return a book from any library associated with their University. – AVAILABLE AT BOOK’S DETAIL/SHOW PAGE
+* Delete a reservation request, which has not been approved yet (pending). – AVAILABLE AT BOOK’S DETAIL/SHOW PAGE
+* View/Edit their account attributes (including changing their password).
+* Search through the books
+  * Search by title
+  * Search by author
+  * Search by publication date
+  * Search by category
+* Bookmark a book they are interested in. – AVAILABLE AT BOOK’S DETAIL/SHOW PAGE
+* View their bookmarked books.
+* At any given time, a student can borrow a max of '**N**' number of books based on their educational level.
+* View the overdue fines for his/her account. 
+* Receive an email when any of their book request is sucessful.
 
-8. For books in the special collection, accept or deny book hold request.
 
-9. View list of all the books that are checked out from their library.
-
-10. View the borrowing history of the books from their library.
-
-11. View the list of students with overdue books from their library along with overdue fine
-
-## STUDENT FUNCTIONALITIES
-
-1. View the list of all the libraries
-
-2. Edit profile to modify email, name and password only.
-
-3. View all books
-
-4. Check out/Request/Return a book from any library associated with their University.
-
-5. Delete a reservation request, which has not been approved yet (pending).
-
-6. View/Edit their account attributes (including changing their password).
-
-7. Search through the books
-
-8. Search by title
-
-9. Search by author
-
-10. Search by publication date
-
-11. Search by subject
-
-12. Bookmark a book they are interested in.
-
-13. View their bookmarked books.
-
-14. At any given time, a student can borrow a max of 'N' number of books based on their educational level.
-
-15. View the overdue fines for his/her account.
-
-16. Receive an email when any of their book request is sucessful.
 
