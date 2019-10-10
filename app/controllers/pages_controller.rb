@@ -18,6 +18,7 @@ class PagesController < ApplicationController
 	else
         	@book_histories = BookHistory.GetBookHistory(:admin)
 		@book_hold_trackers = HoldBookTracker.GetBookHoldRequests(:admin)
+		@librarians_request_list = Admin.GetLibrariansForApproval()
 	end 
   end
 
