@@ -1,19 +1,20 @@
 
 <h1>Books</h1>
 
-<table>
+<table id="grid" style="table-layout: fixed;">
   <thead>
     <tr>
-      <th>Isbn</th>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Library</th>
-      <th>Language</th>
-      <th>Published</th>
-      <th>Edition</th>
-      <th>Specialcollection</th>
-      <th>Available</th>	
-      <th colspan="3"></th>
+      <th data-field="ISBN" data-filterable="false">Isbn</th>
+      <th data-field="title">Title</th>
+      <th data-field="Author">Author</th>
+      <th data-field="Library" data-filterable="false">Library</th>
+      <th data-field="language" data-filterable="false">Language</th>
+      <th data-field="published">Published</th>
+      <th data-field="edition" data-filterable="false">Edition</th>
+      <th data-field="subject">Subject</th>	
+      <th data-field="specialCollection" data-filterable="false">Specialcollection</th>
+      <th data-field="available" data-filterable="false">Available</th>	
+      <th data-field="Action" data-filterable="false"></th>
     </tr>
   </thead>
 
@@ -27,20 +28,23 @@
         <td><%= book.language %></td>
         <td><%= book.published %></td>
         <td><%= book.edition %></td>
+		<td><%= book.subject %></td>
         <td><%= book.specialCollection %></td>
-	<td><%= book.available %></td>
-        <td><%= link_to 'Show', book %></td>
-	<%- if admin_signed_in? or librarian_signed_in? %>
-		<%- if librarian_signed_in? %>
-			<%- if current_librarian.library.id == book.library.id %>
-                        	<td><%= link_to 'Edit', edit_book_path(book) %></td>
-				<td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		<td><%= book.available %></td>
+        <td>
+			<%= link_to 'Show', book %>
+			<%- if admin_signed_in? or librarian_signed_in? %>
+				<%- if librarian_signed_in? %>
+					<%- if current_librarian.library.id == book.library.id %>
+                        	<%= link_to 'Edit', edit_book_path(book) %>
+							<%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %>
                 	<% end  %> 
-		<%- else %>	   	
-        		<td><%= link_to 'Edit', edit_book_path(book) %></td>
-        		<td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-		<% end %>
-	<% end %>
+				<%- else %>	   	
+					<%= link_to 'Edit', edit_book_path(book) %>
+					<%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %>
+				<% end %>
+			<% end %>
+		</td>
       </tr>
     <% end %>
   </tbody>
@@ -50,3 +54,93 @@
 <%- if admin_signed_in? or librarian_signed_in? %>
 	<%= link_to 'New Book', new_book_path %>
 <% end %>
+
+<script> 
+       
+		$(document).ready(function() {
+			$("#grid").kendoGrid({				
+				filterable: {
+					mode: "row"
+				},
+				pageable: true,
+				columns:    [
+									{
+										field:"ISBN",
+										filterable: false,
+										width: 30
+									},              
+									{
+										field: "title",
+										filterable: {
+											cell: {
+												operator: "contains",
+												suggestionOperator: "contains"
+											}
+										},
+										width: 40
+									}, 
+									{
+										field: "Author",
+										filterable: {
+											cell: {
+                                                operator: "contains",
+                                                suggestionOperator: "contains"
+											}
+										},
+										width: 40
+									}, 
+									{
+										field: "Library",
+										filterable: false,
+										width: 25		
+									}, 
+									{
+										field: "language",
+										filterable: false,
+										width: 30		
+									}, 
+									{
+										field: "published",
+										filterable: {
+											cell: {
+                                                operator: "eq"                                                
+											}
+										},                              
+										format: "{0:MM/dd/yyyy}",
+										width: 40
+									}, 
+									{
+										field: "edition",
+										filterable: false,
+										width: 30
+									}, 
+									{
+										field: "subject",
+										filterable: {
+											cell: {
+                                                operator: "contains",
+                                                suggestionOperator: "contains"
+											}
+										},
+										width: 40
+									}, 
+									{
+										field: "specialCollection",
+										filterable: false,
+										width: 50
+									}, 
+									{
+										field: "available",
+										filterable: false,
+										width: 30
+									},
+									{
+										field: "Action",
+										filterable: false,
+										width: 40
+									}
+												
+						]
+			});			
+		});
+</script>

@@ -11,9 +11,6 @@ class Book < ApplicationRecord
   validates :language , presence: true
   validates :published , presence: true
   validates :edition , presence: true
-  # validates :cover , presence: true
-  # validates :summary , presence: true
-  # validates :specialCollection , presence: true
   validates :published , presence: true
   validates :cover, blob: { content_type: ['image/png', 'image/jpeg'], size_range: 1..5.megabytes }
 
@@ -40,26 +37,28 @@ class Book < ApplicationRecord
         previous_fine = student.overdueFromReturnedBooks
         previous_fine.present? ? student.update(:overdueFromReturnedBooks=>previous_fine+current_fine) : student.update(:overdueFromReturnedBooks=>current_fine)
       end
-      nextStudentEntries = HoldBookTracker.where(:book_id=> bookid)&.order(:created_at)
-      if !book.specialCollection and nextStudentEntries.present?
-        nextStudentEntry = nextStudentEntries.each { |entry| if BookHistory.checkMaxLimitReached?(entry.student.id) then return entry end}.first
-        self.createNewCheckoutEntry?(bookid,nextStudentEntry.student_id)
-        self.updateAvailableCounter?(bookid,-1)
-        nextStudentEntry.destroy
+
+      if !book.specialCollection and nextStudentEntries = HoldBookTracker.where(:book_id=> bookid)&.order(:created_at)
+        nextStudentEntry = nextStudentEntries.find { |entry| !BookHistory.checkMaxLimitReached?(entry.student.id) }
+        if nextStudentEntry
+        	self.createNewCheckoutEntry?(bookid,nextStudentEntry.student_id)
+        	self.updateAvailableCounter?(bookid,-1)
+        	nextStudentEntry.destroy
+	end
       end
       return true
     end
-
+    return false	
   end 
 
   def self.updateAvailableCounter?(bookid,adder)
       	updateBook = Book.find(bookid)
         availableCounter = updateBook.available + adder
-	      updateBook.update(:available=>availableCounter)
+	updateBook.update(:available=>availableCounter)
   end
+
 
   def self.cancelHoldRequest?(bookid, studentid)
     Book.find(bookid).hold_book_trackers&.find_by_student_id(studentid)&.destroy
   end
-
 end

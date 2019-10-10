@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 2019_10_09_213317) do
     t.integer "student_id"
     t.integer "library_id"
     t.integer "available"
+    t.string "subject"
     t.index ["library_id"], name: "index_books_on_library_id"
     t.index ["student_id"], name: "index_books_on_student_id"
   end

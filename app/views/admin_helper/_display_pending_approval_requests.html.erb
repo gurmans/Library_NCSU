@@ -1,0 +1,29 @@
+<%- if admin_signed_in? %>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Library</th>	
+      <th>Requested Date</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @librarians_request_list.each do |librarian| %>
+      <tr>
+        <td> <%= librarian.name %> </td>	
+        <td><% if librarian.library.present? %> <%= librarian.library.name%> <% end %></td>
+        <td><%= librarian.created_at.to_date %></td>
+        <td>
+		  <% if librarian.approved == false %>	
+			<%= link_to 'Accept',{ :controller => :admins, :action => :handleLibrarianApprovalRequest, :id => librarian.id,:approve => true}, :method => :post  %>
+			<%= link_to 'Deny',{ :controller => :admins, :action => :handleLibrarianApprovalRequest, :id => librarian.id, :approve => false}, :method => :post  %>
+		  <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+<br>

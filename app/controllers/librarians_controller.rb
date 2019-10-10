@@ -61,8 +61,34 @@ class LibrariansController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  
+  #POST
+  def handleSpecialCollectionRequest
+    respond_to do |format|
+      if params[:book_id].present? and params[:student_id].present? and params[:approve].present?
+	    if HoldBookTracker.handleSpecialCollectionRequest?(params[:book_id],params[:student_id],params[:approve])
+			if params[:approve] == "true"			
+				redirectWithMessage(format, pages_librarianhome_path(), 'Special collection request approved successfully.')
+			elsif params[:approve] == "false"				
+				redirectWithMessage(format, pages_librarianhome_path(), 'Special collection request rejected successfully')
+			else
+				redirectWithMessage(format, pages_librarianhome_path(), 'Special collection request could not be handled due to some error')
+			end
+			 	
+		else
+			redirectWithMessage(format, pages_librarianhome_path(), 'Special collection request could not be handled due to some error')
+		end
+	  else
+			redirectWithMessage(format, pages_librarianhome_path(), 'Special collection request could not be handled due to some error')
+      end
+	end 	
+  end
+  
   private
+  
+	def redirectWithMessage(format, destination, message)
+		format.html { redirect_to destination, notice: message }
+	end
     # Use callbacks to share common setup or constraints between actions.
     def set_librarian
       @librarian = Librarian.find(params[:id])
