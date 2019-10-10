@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   devise_for :librarians, controllers: { sessions: 'librarians/sessions', registrations: 'librarians/registrations' }
   devise_for :students, controllers: { sessions: 'students/sessions', registrations: 'students/registrations' }
   resources :programs
+  resources :book_histories
+  resources :bookmarks
   resources :books do
     collection do
       post 'placeHoldRequest'
@@ -15,6 +17,7 @@ Rails.application.routes.draw do
       post 'addToWishList'
       post 'remove_from_wish_list'
       post 'cancelHoldRequest'
+      get 'display_book_history'
     end
   end
   resources :libraries
@@ -27,7 +30,10 @@ Rails.application.routes.draw do
 		post 'handleSpecialCollectionRequest'
 	  end
 	end	 	
-  end	
+  get 'get_overdue_students', action: :get_overdue_students, controller: 'students'
+  get 'display_book_history', action: :display_book_history, controller: 'books'
+  scope "/admin" do
+  	resources :librarians	
   resources :universities
   post 'admins/handleLibrarianApprovalRequest'	
   root to: 'pages#home'	

@@ -90,7 +90,7 @@ class BooksController < ApplicationController
   def returnBook
 	@book = Book.find(params[:id])
 	@student = current_student
-        if @student
+        # if @student
 
 		respond_to do |format|
 			if Book.returnBook?(@book.id, @student.id) and Book.updateAvailableCounter?(@book.id, 1)
@@ -101,7 +101,6 @@ class BooksController < ApplicationController
                         	format.json { render json: @book.errors, status: :unprocessable_entity }
 			end
         	end	
-        end			 	
   end
 
   def placeHoldRequest
@@ -161,6 +160,15 @@ class BooksController < ApplicationController
           redirectWithMessage(format, @book,'Your Request could NOT be handled, please contact support staff.')
         end
       end
+    end
+  end
+
+  def display_book_history
+    @book_histories = BookHistory.where(:student_id => params[:studentid]).order(returnDate: :desc).to_a
+    @book_histories.select! {|history| history.overdue_amount != nil or (history.dueDate != nil and history.dueDate < Date.current)}
+    @book_histories.each do |history| if history.overdue_amount == nil and book = Book.find(history.book_id)
+                                        history.overdue_amount = book.library.overdueFine * (Date.current - history.dueDate).to_i
+                                      end
     end
   end
 

@@ -16,7 +16,7 @@ class BookHistory < ApplicationRecord
 	# if bookid nil (not passed) then we will fetch from history checked out books according to user logged in
 	if bookid
 		bookHistory = BookHistory.where(:book_id=>bookid)
-        else
+	else
 		case type
 		when :admin
 			bookHistory = BookHistory.where(:returnDate=>nil)	

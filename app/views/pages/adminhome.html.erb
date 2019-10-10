@@ -10,7 +10,11 @@
 <li> <%= link_to "View Students", students_path()  %> </li>
 <li> <%= link_to "View Universities", universities_path()  %> </li>
 <li> <%= link_to "View Programs", programs_path()  %> </li>
+<li> <%= link_to "View Students with pending overdues", { :controller => :students, :action => :get_overdue_students}, :method => :get  %> </li>
 </ul>
+
+<br />
+<br />
 
 <h3>Pending Librarians Sign Up Approval Requests</h3>
 <%= render "admin_helper/display_pending_approval_requests" %>

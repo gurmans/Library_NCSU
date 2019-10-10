@@ -12,7 +12,7 @@ class Book < ApplicationRecord
   validates :published , presence: true
   validates :edition , presence: true
   validates :published , presence: true
-
+  validates :cover, blob: { content_type: ['image/png', 'image/jpeg'], size_range: 1..5.megabytes }
 
   def self.createNewCheckoutEntry?(bookid,studentid)
     currentDate = Date.current
@@ -24,8 +24,12 @@ class Book < ApplicationRecord
   def self.returnBook?(bookid,studentid)
     returnDate = Date.current
     bookHistory = BookHistory.find_by(returnDate: nil, book_id: bookid, student_id: studentid)
-    if bookHistory.update(:returnDate=>returnDate)
-      book = Book.find(bookid)
+    bookHistory.returnDate = returnDate
+    book = Book.find(bookid)
+    if returnDate > bookHistory.dueDate
+      bookHistory.overdue_amount = book.library.overdueFine * (returnDate - bookHistory.dueDate).to_i
+    end
+    if bookHistory.save
       if returnDate > bookHistory.dueDate
         student = Student.find(studentid)
         diff = returnDate - bookHistory.dueDate
@@ -33,6 +37,7 @@ class Book < ApplicationRecord
         previous_fine = student.overdueFromReturnedBooks
         previous_fine.present? ? student.update(:overdueFromReturnedBooks=>previous_fine+current_fine) : student.update(:overdueFromReturnedBooks=>current_fine)
       end
+
       if !book.specialCollection and nextStudentEntries = HoldBookTracker.where(:book_id=> bookid)&.order(:created_at)
         nextStudentEntry = nextStudentEntries.find { |entry| !BookHistory.checkMaxLimitReached?(entry.student.id) }
         if nextStudentEntry
