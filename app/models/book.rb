@@ -10,10 +10,8 @@ class Book < ApplicationRecord
   validates :language , presence: true
   validates :published , presence: true
   validates :edition , presence: true
-  validates :cover , presence: true
-  validates :summary , presence: true
   validates :published , presence: true
-
+  validates :cover, blob: { content_type: ['image/png', 'image/jpeg'], size_range: 1..5.megabytes }
 
   def self.createNewCheckoutEntry?(bookid,studentid)
     currentDate = Date.current
@@ -25,10 +23,14 @@ class Book < ApplicationRecord
   def self.updateExistingCheckoutEntry?(bookid,studentid)
     returnDate = Date.current
     bookHistory = BookHistory.find_by(returnDate: nil, book_id: bookid, student_id: studentid)
-    if bookHistory.update(:returnDate=>returnDate)
+    bookHistory.returnDate = returnDate
+    book = Book.find(bookid)
+    if returnDate > bookHistory.dueDate
+      bookHistory.overdue_amount = book.library.overdueFine * (returnDate - bookHistory.dueDate).to_i
+    end
+    if bookHistory.save
       if returnDate > bookHistory.dueDate
         student = Student.find(studentid)
-        book = Book.find(bookid)
         diff = returnDate - bookHistory.dueDate
         current_fine = book.library.overdueFine * diff.to_i
         previous_fine = student.overdueFromReturnedBooks
@@ -36,14 +38,28 @@ class Book < ApplicationRecord
       else
         return true
       end
-    end
 
+      if !book.specialCollection and nextStudentEntries = HoldBookTracker.where(:book_id=> bookid)&.order(:created_at)
+        nextStudentEntry = nextStudentEntries.find { |entry| !BookHistory.checkMaxLimitReached?(entry.student.id) }
+        if nextStudentEntry
+        	self.createNewCheckoutEntry?(bookid,nextStudentEntry.student_id)
+        	self.updateAvailableCounter?(bookid,-1)
+        	nextStudentEntry.destroy
+	end
+      end
+      return true
+    end
+    return false	
   end 
 
   def self.updateAvailableCounter?(bookid,adder)
       	updateBook = Book.find(bookid)
         availableCounter = updateBook.available + adder
-	      updateBook.update(:available=>availableCounter)
+	updateBook.update(:available=>availableCounter)
   end
 
+
+  def self.cancelHoldRequest?(bookid, studentid)
+    Book.find(bookid).hold_book_trackers&.find_by_student_id(studentid)&.destroy
+  end
 end

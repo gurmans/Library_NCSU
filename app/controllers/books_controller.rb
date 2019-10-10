@@ -76,7 +76,7 @@ class BooksController < ApplicationController
     	respond_to do |format|
       		if BookHistory.checkIfAlreadyIssued?(@book.id,@student.id)
             redirectWithMessage(format, @book,'Book is already Issued.')
-          elsif BookHistory.checkMaxLimit?(@student.id)
+          elsif BookHistory.checkMaxLimitReached?(@student.id)
             redirectWithMessage(format, @book,'Max Checkout Limit Reached')
       		elsif  Book.createNewCheckoutEntry?(@book.id,@student.id) and Book.updateAvailableCounter?(@book.id,-1)
             redirectWithMessage(format, @book,'Checkout Successful.')
@@ -90,7 +90,7 @@ class BooksController < ApplicationController
   def returnBook
 	@book = Book.find(params[:id])
 	@student = current_student
-        if @student
+        # if @student
 
 		respond_to do |format|
 			if Book.updateExistingCheckoutEntry?(@book.id,@student.id) and Book.updateAvailableCounter?(@book.id,1)
@@ -101,7 +101,6 @@ class BooksController < ApplicationController
                         	format.json { render json: @book.errors, status: :unprocessable_entity }
 			end
         	end	
-        end			 	
   end
 
   def placeHoldRequest
@@ -121,25 +120,55 @@ class BooksController < ApplicationController
     end
   end
 
+  def cancelHoldRequest
+    @book = Book.find(params[:id])
+    respond_to do |format|
+      if Book.cancelHoldRequest?(params[:id], current_student.id)
+        redirectWithMessage(format, @book, 'Hold request cancelled successfully.')
+      else
+        redirectWithMessage(format, @book, 'Your Request could NOT be handled, please contact support staff.')
+      end
+    end
+  end
+
+  def remove_from_wish_list
+    respond_to do |format|
+      if Student.remove_from_wish_list?(params[:id], current_student.id)
+        redirectWithMessage(format, Book.find(params[:id]), 'Book removed from your wish list successfully.')
+      else
+        redirectWithMessage(format, Book.find(params[:id]), 'Your Request could NOT be handled, please contact support staff.')
+      end
+    end
+  end
+
   def addToWishList
     # HoldBookTracker.find_by_
     @book = Book.find(params[:id])
-    # @student = current_student
+    bookmarks = current_student.bookmarks
     respond_to do |format|
       if current_student.bookmarks.present? && current_student.bookmarks.split(";").include?(params[:id])
         redirectWithMessage(format, @book, 'Book is already in your WishList.')
       else
-        if current_student.bookmarks.present? == false || current_student.bookmarks.split(";").present? == false
-          current_student.bookmarks = @book.id.to_s
+        if bookmarks&.split(";").present? == false
+          bookmarks = @book.id.to_s
         else
-          current_student.bookmarks << ";" << @book.id.to_s
+          bookmarks << ";" << @book.id.to_s
+        end
+        if current_student.update(:bookmarks=> bookmarks)
+          redirectWithMessage(format, @book,'Your Request is successfully Handled.')
+        else
+          redirectWithMessage(format, @book,'Your Request could NOT be handled, please contact support staff.')
         end
       end
-      if current_student.save
-        redirectWithMessage(format, @book,'Your Request is successfully Handled.')
-      else
-        redirectWithMessage(format, @book,'Your Request could NOT be handled, please contact support staff.')
-      end
+    end
+  end
+
+  def display_book_history
+    @book_histories = BookHistory.where(:student_id => params[:studentid]).order(returnDate: :desc).to_a
+    @book_histories.select! {|history| history.overdue_amount != nil or (history.dueDate != nil and history.dueDate < Date.current)}
+    @book_histories.each do |history| if history.overdue_amount == nil and book = Book.find(history.book_id)
+                                        history.overdue_amount = book.library.overdueFine * (Date.current - history.dueDate).to_i
+                                      end
     end
   end
 
@@ -157,7 +186,7 @@ class BooksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
-      params.require(:book).permit(:ISBN, :title, :Author, :language, :published, :bookmarks,:edition, :cover, :summary, :specialCollection,:library_id, :available)
+      params.require(:book).permit(:ISBN, :title, :Author, :language, :published, :bookmarks,:edition, :cover, :summary, :specialCollection,:library_id, :available, :subject)
     end
 
     # explicit authentication method

@@ -30,6 +30,11 @@
 </p>
 
 <p>
+  <strong>Subject:</strong>
+  <%= @book.subject %>
+</p>
+
+<p>
   <strong>Image:</strong>
   <% if @book.cover.attached? %> <img src="<%=url_for(@book.cover) %>" height="60" width="40" /> <%end%>
 </p>
@@ -58,14 +63,23 @@
 
 <%- if student_signed_in?%>
   <%- if current_student.university_id == @book.library.university_id %>
+        <% if current_student.bookmarks&.split(";")&.include?(@book.id.to_s)%>
           <p>
-      		<%= link_to 'Add to Wish List', { :controller => :books, :action => :addToWishList, :id => @book.id}, :method => :post %>
-    	  </p>
-
+            <%= link_to 'Remove from WishList', { :controller => :books, :action => :remove_from_wish_list, :id => @book.id}, :method => :post %>
+          </p>
+        <% else %>
+          <p>
+            <%= link_to 'Add to Wish List', { :controller => :books, :action => :addToWishList, :id => @book.id}, :method => :post %>
+          </p>
+        <%end %>
         <%- if !BookHistory.checkIfAlreadyIssued?(@book.id,current_student.id) %>
               <%- if @book.available.present? and @book.available > 0 and !@book.specialCollection%>
                     <p>
                         <%= link_to 'Checkout/Reserve', { :controller => :books, :action => :placeCheckoutRequest, :id => @book.id}, :method => :post %>
+                    </p>
+              <%elsif @book.hold_book_trackers&.find_by_student_id(current_student.id).present?%>
+                    <p>
+                      <%= link_to 'Cancel Request', {:controller => :books, :action => :cancelHoldRequest, :id => @book.id}, :method => :post %>
                     </p>
               <% else %>
                 <p>
@@ -101,8 +115,8 @@
 	<h1>Book History :- </h1>
         <%- if librarian_signed_in? %>
                 <%- if current_librarian.library.id == @book.library.id %>
-                       	<%= render "book_histories/display_book_history" %>
+                       	<%= render "book_helper/display_book_history" %>
                 <% end  %>                                                                                                      <%- else %>
-                <%= render "book_histories/display_book_history" %>
+                <%= render "book_helper/display_book_history" %>
         <% end %>
 <% end %>
