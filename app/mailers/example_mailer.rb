@@ -1,5 +1,5 @@
 class ExampleMailer < ApplicationMailer
-	default :from => 'rubyprogram2@gmail.com'
+	default :from => 'jpgruby123@gmail.com'
 	
 	def send_email(user)
 		puts "hello"

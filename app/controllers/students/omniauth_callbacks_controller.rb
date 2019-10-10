@@ -2,11 +2,23 @@
 
 class Students::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # You should configure your model like this:
-  # devise :omniauthable, omniauth_providers: [:twitter]
+   devise :omniauthable, omniauth_providers: [:google_oauth2]
 
   # You should also create an action method in this controller like this:
-  # def twitter
-  # end
+  def google_oauth2
+    auth = request.env["omniauth.auth"]
+    user = Student.where(provider: auth["provider"], uid: auth["uid"])
+            .first_or_initialize(email: auth["info"]["email"])
+    user.name ||= auth["info"]["name"]
+    user.program_id = '1'
+    user.university_id = '1'
+    user.save!
+
+    user.remember_me = true
+    sign_in(:user, user)
+
+    redirect_to pages_studenthome_path
+  end
 
   # More info at:
   # https://github.com/plataformatec/devise#omniauth

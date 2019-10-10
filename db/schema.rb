@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_07_231946) do
+ActiveRecord::Schema.define(version: 2019_10_09_141621) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -51,8 +54,8 @@ ActiveRecord::Schema.define(version: 2019_10_07_231946) do
     t.date "returnDate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "book_id"
-    t.integer "student_id"
+    t.bigint "book_id"
+    t.bigint "student_id"
     t.date "dueDate"
     t.index ["book_id"], name: "index_book_histories_on_book_id"
     t.index ["student_id"], name: "index_book_histories_on_student_id"
@@ -142,6 +145,8 @@ ActiveRecord::Schema.define(version: 2019_10_07_231946) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.decimal "overdueFromReturnedBooks"
+    t.string "provider"
+    t.string "uid"
     t.index ["email"], name: "index_students_on_email", unique: true
     t.index ["program_id"], name: "index_students_on_program_id"
     t.index ["reset_password_token"], name: "index_students_on_reset_password_token", unique: true
