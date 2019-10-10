@@ -154,7 +154,7 @@ class BooksController < ApplicationController
         else
           bookmarks << ";" << @book.id.to_s
         end
-        if current_student.update(:bookmarks=> bookmarks)
+        if current_student.update_attribute(:bookmarks,bookmarks)
           redirectWithMessage(format, @book,'Your Request is successfully Handled.')
         else
           redirectWithMessage(format, @book,'Your Request could NOT be handled, please contact support staff.')

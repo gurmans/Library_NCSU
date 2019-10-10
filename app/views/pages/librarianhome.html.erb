@@ -16,10 +16,11 @@
 <h3>Checked Out Books List :- </h3>
 <%= render "book_helper/display_book_history" %>
 <br />
+<br />
 <h3>Pending Special Collection Books Requests List :- </h3>
-<%= render partial: "book_helper/display_pending_hold_requests", locals: {book_hold_request_list: @book_special_requests} %>
+<%= render partial: "book_helper/display_pending_hold_requests", locals: {book_hold_request_list: @book_special_requests,spcl: 1} %>
 <br />
 <h3>Books Hold Requests List :- </h3>
-<%= render partial: "book_helper/display_pending_hold_requests", locals: {book_hold_request_list: @book_hold_trackers} %>
+<%= render partial: "book_helper/display_pending_hold_requests", locals: {book_hold_request_list: @book_hold_trackers, spcl: 0} %>
 <br />
 <br />
