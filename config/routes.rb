@@ -26,14 +26,13 @@ Rails.application.routes.draw do
   end
   scope "/admin" do	
   	resources :librarians do
-	  collection do
-		post 'handleSpecialCollectionRequest'
-	  end
+      collection do
+        post 'handleSpecialCollectionRequest'
+      end
+    end
 	end	 	
   get 'get_overdue_students', action: :get_overdue_students, controller: 'students'
   get 'display_book_history', action: :display_book_history, controller: 'books'
-  scope "/admin" do
-  	resources :librarians	
   resources :universities
   post 'admins/handleLibrarianApprovalRequest'	
   root to: 'pages#home'	
