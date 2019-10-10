@@ -20,7 +20,7 @@ Admin is able to:
 * View the list of book hold requests. – AVAILABLE ON HOMEPAGE
 * View the list of Checked out books.  – AVAILABLE ON HOMEPAGE
 * View the list of students with books overdue (along with overdue fines– LINK AVAILABLE AT HOMEPAGE WITH FOLLOWING NAME – “View Students with pending overdues”
-Note: The overdue amount here represents the fine to student for any previous overdue book.
+Note: The overdue amount here represents the fine to student for any previous overdue book that he/she returned after due date.
 -FURTHER LINK TO DETAILED OVERDUE BOOKS AVAILABLE AT THE “books” sub-link
 
 * View the borrowing history of each book. – AVAILABLE ON HOMEPAGE
@@ -67,7 +67,8 @@ Note: user can use same email id to register both as librarian and student
 * View their bookmarked books.
 * At any given time, a student can borrow a max of '**N**' number of books based on their educational level.
 * View the overdue fines for his/her account. 
-* Receive an email when any of their book request is sucessful.
 
+
+Note: When a student returns a book, the next student having hold on that book is automatically assigned that book if the book is not a special collection book.
 
 
