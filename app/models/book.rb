@@ -2,7 +2,6 @@ class Book < ApplicationRecord
   belongs_to :student, optional: true
   belongs_to :library
   has_many :hold_book_trackers, :dependent => :destroy
-  has_many :book_histories, :dependent => :destroy
   has_one_attached :cover
   validates :ISBN, uniqueness: true
   validates :title , presence: true 
@@ -21,7 +20,7 @@ class Book < ApplicationRecord
     bookHistory.save
   end
 
-  def self.returnBook?(bookid,studentid)
+  def self.updateExistingCheckoutEntry?(bookid,studentid)
     returnDate = Date.current
     bookHistory = BookHistory.find_by(returnDate: nil, book_id: bookid, student_id: studentid)
     bookHistory.returnDate = returnDate
@@ -36,6 +35,8 @@ class Book < ApplicationRecord
         current_fine = book.library.overdueFine * diff.to_i
         previous_fine = student.overdueFromReturnedBooks
         previous_fine.present? ? student.update(:overdueFromReturnedBooks=>previous_fine+current_fine) : student.update(:overdueFromReturnedBooks=>current_fine)
+      else
+        return true
       end
 
       if !book.specialCollection and nextStudentEntries = HoldBookTracker.where(:book_id=> bookid)&.order(:created_at)

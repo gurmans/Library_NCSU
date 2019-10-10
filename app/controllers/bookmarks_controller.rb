@@ -1,7 +1,7 @@
 class BookmarksController < ApplicationController
 
   def addToArray(bookmarks)
-    bookmarks.each do |bookmark|
+    bookmarks&.each do |bookmark|
       book = Book.find(bookmark)
       if book.present?
         yield book
